@@ -1,19 +1,19 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const mysql = require("mysql2/promise"); // Usar mysql2 con promesas
+require('dotenv').config()
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'Lobo29615943',
-    database: 'acortador_url',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
 });
 
 // Función para generar una URL corta
@@ -75,11 +75,10 @@ app.post('/acortar', async (req, res) => {
 				}
 
         const generateUniqueShortUrl = async () => {
-            const short_url = generateShortUrl();
-            if (await isUrlExist(short_url)) {
-                // Si existe, intenta generar una nueva URL corta
-                return generateUniqueShortUrl();
-            }
+           let short_url;
+					 do{short_url = generateShortUrl();
+					 }while (await isUrlExist(short_url))
+					
 						const expiration_date = is_paid_user ? null : new Date(new Date().setMonth(new Date().getMonth() + 1))
 
             // Si no existe, inserta en la base de datos
@@ -92,8 +91,8 @@ app.post('/acortar', async (req, res) => {
         const result = await generateUniqueShortUrl();
         return res.status(201).send(result);
     } catch (error) {
-			console.error('Error en /acortar ')
-        return res.status(500).send({ error: error.message });
+			console.error('Error en /acortar:',error)
+        return res.status(500).send({ error: "ha ocurrido un error Interno" });
     }
 });
 
