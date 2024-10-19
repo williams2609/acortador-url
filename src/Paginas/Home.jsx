@@ -11,9 +11,11 @@ const [expire,setExpire]= useState("")
 
 const handleInputUrl = async (e)=>{
 	e.preventDefault();
-	setError("")
+	setError('')
+	setShortUrl('');
+	setExpire('')
 	try{	
-			const response = await axios.post("http://localhost:5000/acortar",{
+			const response = await axios.post("http://localhost:5000/url/acortar",{
 			original_url:originalUrl,
 			is_paid_user: isPaid
 		});
@@ -48,7 +50,7 @@ const handleInputUrl = async (e)=>{
 				>Acortar URL</button>
 				{shortUrl &&
 				<label>URL Acortada
-					<a href={`http://localhost:5000/${shortUrl}`} target='blanc' rel='noopener noreferrer'>{shortUrl}</a>
+					<a href={`http://localhost:5000/url/${shortUrl}`} target='blanc' rel='noopener noreferrer'><p>{shortUrl}</p></a>
 					<p>Fecha De expiracion: {expire}</p>
 				</label> }
 				{error && <p>{error}</p>}
