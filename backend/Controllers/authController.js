@@ -2,22 +2,36 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
-const authMiddleware = require('../Middleware/authMiddleware')
+const authMiddleware = require('../Middleware/authMiddleware');
+const User = require('../Modelos/userModel');
 
 router.post('/register',async (req,res)=>{
     const {username,password,email,phone_number} = req.body
 
   try{  
-    const userCreated = await req.pool.query('SELECT * FROM users WHERE username = ?',[username])
-    if(userCreated[0].length > 0){
+
+    const userExist = await User.findOne({where: {username}})
+    
+    if(userExist){
         return res.status(400).send({error : 'El Nombre del usuario ya esta en uso'})
+
     }
+    const userEmail = await User.findOne({where: {email}})
+    if(userEmail){
+        return res.status(401).send({error:'El Email ya esta en uso'})
+    }
+
     const hashedPassword = await bcrypt.hash(password,10)
 
-    await req.pool.query('INSERT INTO users (username,password,email,phone_number) VALUES(?,?,?,?)',[username,hashedPassword,email,phone_number])
+ const newUser = await User.create({
+    username,
+    password:hashedPassword,
+    email,
+    phone_number
+ }) 
    
-    
     return res.status(200).send({message: '!Usuario creado con exito¡'})
+
 }catch(error){
     console.error('error en /register',error)
     return res.status(500).send({error: "Error interno del servidor"})
@@ -28,8 +42,7 @@ router.post('/login', async (req,res)=>{
    const {username,password} = req.body
 
 try{
-    const [users] = await req.pool.query('SELECT * FROM users WHERE username = ?',[username]);
-   const user = users[0]
+    const user = await User.findOne({where:{username}})
    if(!user){
    return res.status(401).send({error: 'Usuario o contraseña incorrecta'})
    }

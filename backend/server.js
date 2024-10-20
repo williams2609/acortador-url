@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2/promise"); // Usar mysql2 con promesas
 require('dotenv').config()
+const sequelize = require('./db');
+const User = require('./Modelos/userModel')
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -16,7 +18,7 @@ const pool = mysql.createPool({
     database: process.env.DB_NAME,
 });
 app.use((req,res,next)=>{
-	req.pool = pool
+	req.sequelize = sequelize
 	next()
 })
 const urlRoutes = require('./Controllers/urlController')
@@ -29,6 +31,11 @@ app.get('/', (req, res) => {
 	res.send("API de acortador de URL");
 });
 // Iniciar el servidor
-app.listen(port, () => {
+sequelize.sync().then(()=>{
+	app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });
+
+}).catch((error)=>{
+	console.error('Error Al sincronizar la base de datos: ', error)
+})
