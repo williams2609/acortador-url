@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { generateShortUrl, isUrlExist, isOriginalUrlExist, isValidUrl } = require('./urlUtilities');
+const { generateShortUrl, isUrlExist, isOriginalUrlExist, isValidUrl } = require('../utilities/urlUtilities');
 
 // Ruta para acortar URLs
 router.post('/acortar', async (req, res) => {
