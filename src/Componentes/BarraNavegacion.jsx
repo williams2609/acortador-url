@@ -3,10 +3,10 @@ import './Estilos/Navbar.css'
 
 function BarraNavegacion() {
   return (
-    <nav className='bg-light navbar w-100'>
-        <div className='contenedor-items container'>
+    <nav className='navbarr w-100 p-3'>
+        <div className='contenedor-items container d-flex justify-content-between'>
         <div className='logo-navbar'>
-        <h3 className='m-0'>Logo</h3>
+        <p className='m-0 logo'><strong>URLify</strong></p>
         </div>
         <div className='links'>
             links

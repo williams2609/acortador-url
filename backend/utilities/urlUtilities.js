@@ -10,6 +10,9 @@ function generateShortUrl() {
 
 // Función para validar la URL
 function isValidUrl(url) {
+    if(!/^https?:\/\//i.test(url)){
+        url = 'http://' + url; // Cambiar a 'http://' para mayor compatibilidad
+    }
     const isValid = new RegExp('^(https?:\\/\\/)?' + // Protocolo
         '((([a-z0-9][-a-z0-9]*[a-z0-9])?\\.)+[a-z]{2,}|' + // Dominio
         'localhost|' + // localhost

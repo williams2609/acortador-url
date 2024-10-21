@@ -3,6 +3,7 @@ const router = express.Router();
 const { generateShortUrl, isUrlExist, isOriginalUrlExist, isValidUrl } = require('../utilities/urlUtilities');
 const User = require('../Modelos/userModel');
 const Url = require('../Modelos/urlModel');
+const https = require('https')
 const { default: axios } = require('axios');
 
 // Ruta para acortar URLs
@@ -10,9 +11,16 @@ router.post('/acortar', async (req, res) => {
     const { original_url } = req.body;
     const is_paid_user = req.body.is_paid_user || false;
 
-    const checkedUrl = async (original_url)=>{
+    const checkedUrl = async (url)=>{
+        
+        if(!/^https?:\/\//i.test(url)){
+            url = 'http://' + url; }
+
+        const agent = new https.Agent({
+            rejectUnauthorized : false
+        });
         try{
-            const response = await axios.get(original_url)
+            const response = await axios.get(url, {httpsAgent: agent})
             return response.status >= 200 && response.status <= 400; 
         }catch(err){
             return false
@@ -25,7 +33,7 @@ router.post('/acortar', async (req, res) => {
     }
     const validUrl = await checkedUrl(original_url)
     if(!validUrl){
-        return res.status(400).send({error : 'la url no existe'})
+        return res.status(400).send({error : 'la URL no existe'})
     }
 
     try {
@@ -65,7 +73,7 @@ router.post('/acortar', async (req, res) => {
 // Ruta para redirigir URLs
 router.get('/:short_url', async (req, res) => {
     const { short_url } = req.params;
-    const urlEntry = Url.findOne({where: {short_url}});
+    const urlEntry = await Url.findOne({where: {short_url}});
     
 
     if (urlEntry) {
@@ -81,4 +89,31 @@ router.get('/:short_url', async (req, res) => {
     }
 });
 
-module.exports = router;
+router.put('/modificar/:short_url',async (req,res)=>{
+    const { short_url } = req.params;
+    const { new_short_url } = req.body;
+
+    if(!new_short_url || new_short_url.trim()=== ("")){
+        return res.status(400).send({erro: 'Porfavor ingrese una Url'})
+    }
+    try{
+        const urlEntry = await Url.findOne({where: {short_url}})
+        if(!urlEntry){
+            return res.status(400).send({error:'la url corta no existe'})
+        }
+        const urlShortExist = await Url.findOne({where:{short_url}})
+        if (urlShortExist){
+            return res.status(400).send({error:'la Nueva url corta ya existe'})
+        }
+        urlEntry.short_url = new_short_url
+        await urlEntry.save()
+return res.status(200).send({error:'La url corta fue modificada correctamente'})
+
+    }catch(error){
+        return res.status(500).send({error: 'Error interno en el servidor'})
+    }
+
+
+});
+
+module.exports = router;    

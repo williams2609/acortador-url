@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './Estilos/home.css'
 import axios from 'axios'
+import logo from './imagenes/Captura_de_pantalla_2024-10-21_205200-removebg-preview.png'
+
 function Home() {
 
 const [isPaid,setIsPaid]= useState(false)
@@ -36,26 +38,103 @@ const handleInputUrl = async (e)=>{
 };
 
   return (
-    <div  className=''>
-			<div className='contenedor-input mt-5 d-flex align-items-center justify-content-center'>
-				<form onSubmit={handleInputUrl}>
-				<input className='input-acortador rounded-3'
-				type='text'
-				name='originalUrl'
-				value={originalUrl}
-				placeholder='Ingrese Una Url'
-				onChange={(e)=> setOriginalUrl(e.target.value)}
-				></input>
-				<button className='btn btn-primary'
-				>Acortar URL</button>
-				{shortUrl &&
-				<label>URL Acortada
-					<a href={`http://localhost:5000/url/${shortUrl}`} target='blanc' rel='noopener noreferrer'><p>{shortUrl}</p></a>
-					<p>Fecha De expiracion: {expire}</p>
-				</label> }
-				{error && <p>{error}</p>}
-				</form>
-			</div>
+    <div  className='contenedor-home'>
+				<section className='seccion-entrada'>
+    <div className='container-fluid'>
+		<section className='seccion-entrada'>
+    <div className='container'>
+        <section className='row'>
+            <div className='col-md-7 col-12 contenedor-titulo-entrada mt-5'>
+                <h1 className='mt-5 ms-5 titulo-principal'>
+                    Simplifica tu Experiencia en Línea con URLs Cortas
+                </h1>
+                <h2 className='ms-5 subtitulo mb-4'>
+                    Convierte enlaces largos en algo manejable y atractivo.
+                </h2>
+                <p className='ms-5 descripcion mb-4'>
+                    "Con <strong style={{color:"blueviolet"}}>URLify</strong>, acortar enlaces largos es un juego de niños. No solo puedes reducir tus URLs, sino que también puedes crear enlaces personalizados y editarlos cuando lo necesites. Optimiza tu forma de compartir en la web y haz que tus enlaces destaquen. ¡Únete a la revolución de los enlaces cortos y mejora tu presencia en línea!"
+                </p>
+                <ul className='ms-5 lista-caracteristicas'>
+                    <li>✨ **Enlaces Personalizados**: Crea URLs únicas que reflejen tu marca.</li>
+                    <li>🔗 **Análisis de Enlaces**: Monitorea el rendimiento de tus URLs.</li>
+                    <li>🔒 **Seguridad Aumentada**: Protege tus enlaces con medidas de seguridad adicionales.</li>
+                </ul>
+                <div className='d-flex justify-content-start mt-4 ms-5 mb-4 mt-5'>
+                    <a href="/probar" className='boton-prueba btn btn-lg'style={{color:'white'}}>¡Prueba URLify Gratis Ahora!</a>
+                </div>
+            </div>
+            <div className='col-md-5 col-sm-12 contenedor-imagen-logo d-flex align-items-center justify-content-center'>
+                <img className='logo-url mt-5 img-fluid' src={logo} alt="Logo de URLify" />
+            </div>
+        </section>
+    </div>
+</section>
+    </div>
+</section>
+<section className='seccion-acortador-links text-center'>
+    <h1 className='mt-5'>Acorta tus Enlaces de Manera Fácil y Rápida</h1>
+    <h3 className='mt-3' style={{ fontFamily: "sans" }}>
+        Ingresa tu URL larga y transforma tu enlace en uno corto y manejable en segundos.
+    </h3>
+    
+    <div className='contenedor-input mt-5 d-flex align-items-center justify-content-center'>
+        <form onSubmit={handleInputUrl} className='p-4 rounded-4 border shadow'style={{backgroundColor:"white"}}>
+            <div className='mb-3 text-start'>
+                <h4> Acorta Tus URLs Totalmente Gratis</h4>
+                <p className='text-muted'>Con nuestra herramienta, puedes crear enlaces más cortos y fáciles de compartir. Ideal para redes sociales, correos electrónicos y más.</p>
+            </div>
+						<div className='d-flex justify-content-center mt-5'>
+            <input
+                className='input-acortador rounded-3'
+                type='text'
+                name='originalUrl'
+                value={originalUrl}
+                placeholder='Ingrese una URL larga'
+                onChange={(e) => setOriginalUrl(e.target.value)}
+                required
+            />
+
+            <button className='btn btn-primary'>Obten Tu Url Acortada</button>
+            </div>
+            {shortUrl && (
+                <div className='mt-4'>
+                    <label className='d-block'>URL Acortada:</label>
+                    <a href={`http://localhost:5000/url/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
+                        <p className='short-url'>{shortUrl}</p>
+                    </a>
+                    <p className='text-muted'>Fecha de expiración: {expire}</p>
+                </div>
+            )}
+            {error && <p className='text-danger mt-3'>{error}</p>}
+						<div className='d-flex mt-5 justify-content-between'>
+						<span className='mt-2'>Obten hasta 50 url Totalmente Gratis al mes</span>
+						<button className='btn btn-warning'>Urls Ilimitadas y sin Caducidad <i className='bi bi-arrow-right'></i></button>
+						</div>
+        </form>
+    </div>
+    
+    <div className='mt-5'>
+        <h4>¿Por Qué Usar Nuestro Acortador de URLs?</h4>
+        <ul className='list-unstyled'>
+            <li>🔗 <strong>Fácil de Usar:</strong> Simplemente ingresa tu enlace y obtén uno corto en segundos.</li>
+            <li>📊 <strong>Análisis de Rendimiento:</strong> Realiza un seguimiento de los clics y el rendimiento de tus enlaces.</li>
+            <li>🛡️ <strong>Seguridad Mejorada:</strong> Enlaces cortos seguros con protección contra spam.</li>
+            <li>✏️ <strong>Enlaces Personalizados:</strong> Crea URLs que reflejen tu marca o mensaje.</li>
+        </ul>
+    </div>
+
+    <div className='mt-5'>
+        <h4>Testimonios de Nuestros Usuarios</h4>
+        <blockquote className='blockquote'>
+            <p className='mb-0'>“Usar este acortador de URLs ha cambiado la forma en que comparto mis enlaces. ¡Totalmente recomendado!”</p>
+            <footer className='blockquote-footer'>María López, Blogger</footer>
+        </blockquote>
+        <blockquote className='blockquote'>
+            <p className='mb-0'>“La facilidad de personalizar mis enlaces ha hecho que mi marca se vea más profesional.”</p>
+            <footer className='blockquote-footer'>Javier Pérez, Emprendedor</footer>
+        </blockquote>
+    </div>
+</section>
     </div>
   )
 }
