@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './Estilos/home.css'
 import axios from 'axios'
 import logo from './imagenes/Captura_de_pantalla_2024-10-21_205200-removebg-preview.png'
+import Alert from 'react-bootstrap/Alert';
+import { Link } from 'react-router-dom';
 
 function Home() {
 
@@ -60,7 +62,7 @@ const handleInputUrl = async (e)=>{
                     <li>🔒 **Seguridad Aumentada**: Protege tus enlaces con medidas de seguridad adicionales.</li>
                 </ul>
                 <div className='d-flex justify-content-start mt-4 ms-5 mb-4 mt-5'>
-                    <a href="/probar" className='boton-prueba btn btn-lg'style={{color:'white'}}>¡Prueba URLify Gratis Ahora!</a>
+                    <a href="/Subscripción" className='boton-prueba btn btn-lg'style={{color:'white'}}>¡Prueba URLify Gratis Ahora!</a>
                 </div>
             </div>
             <div className='col-md-5 col-sm-12 contenedor-imagen-logo d-flex align-items-center justify-content-center'>
@@ -79,9 +81,9 @@ const handleInputUrl = async (e)=>{
     
     <div className='contenedor-input mt-5 d-flex align-items-center justify-content-center'>
         <form onSubmit={handleInputUrl} className='p-4 rounded-4 border shadow'style={{backgroundColor:"white"}}>
-            <div className='mb-3 text-start'>
-                <h4> Acorta Tus URLs Totalmente Gratis</h4>
-                <p className='text-muted'>Con nuestra herramienta, puedes crear enlaces más cortos y fáciles de compartir. Ideal para redes sociales, correos electrónicos y más.</p>
+            <div className='mb-3 text-center'>
+                <h4 className='m-2 titulo-carta'> Acorta Tus URLs Totalmente Gratis</h4>
+                <p className='text-muted' style={{fontFamily:"sans"}}>Con nuestra herramienta, puedes crear enlaces más cortos y fáciles de compartir. Ideal para redes sociales, correos electrónicos y más.</p>
             </div>
 						<div className='d-flex justify-content-center mt-5'>
             <input
@@ -97,19 +99,26 @@ const handleInputUrl = async (e)=>{
             <button className='btn btn-primary'>Obten Tu Url Acortada</button>
             </div>
             {shortUrl && (
-                <div className='mt-4'>
-                    <label className='d-block'>URL Acortada:</label>
+                <div className='mt-4 d-flex text-center align-items-center justify-content-center'style={{flexDirection:"column"}}>
+                    <div className='d-flex'>
+                    <label className='d-block me-2'>URL Acortada</label>
                     <a href={`http://localhost:5000/url/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
                         <p className='short-url'>{shortUrl}</p>
                     </a>
+                    </div>
                     <p className='text-muted'>Fecha de expiración: {expire}</p>
                 </div>
             )}
-            {error && <p className='text-danger mt-3'>{error}</p>}
-						<div className='d-flex mt-5 justify-content-between'>
-						<span className='mt-2'>Obten hasta 50 url Totalmente Gratis al mes</span>
-						<button className='btn btn-warning'>Urls Ilimitadas y sin Caducidad <i className='bi bi-arrow-right'></i></button>
-						</div>
+            
+            {error &&<div className='d-flex text-center justify-content-center'> <Alert className='mt-3' variant='danger' style={{minWidth:"400px"}}>{error}</Alert></div>}
+						<div className='text-start mt-5'>
+                        <Link className="border rounded p-2 mt-3" to="Subscripción"style={{textDecoration:"none", color:"black"}}>Modifica El Nombre De tu Url</Link>
+                        </div>
+                        <div className='d-flex mt-5 justify-content-between'>
+						<span className='mt-2'style={{fontSize:"0.8rem"}}>Obten hasta 10 url Totalmente Gratis al mes</span>
+						<a href="/Subscripción" className='boton-subscripcion bg-warning border rounded-3 p-2 shadow'>Urls Ilimitadas y sin Caducidad <i className='bi bi-arrow-right'></i>
+						</a>
+                        </div>
         </form>
     </div>
     

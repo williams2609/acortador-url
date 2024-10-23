@@ -71,4 +71,14 @@
 }.boton-prueba:hover{
     background:linear-gradient(to right,rgb(46, 11, 44),rgb(70, 1, 64)) ;
     transform: scale(1.1);
+}.boton-subscripcion{
+    color: white;
+    background: linear-gradient(to bottom right, rgb(214, 71, 166),rgb(29, 29, 204));
+}.boton-subscripcion:hover{
+    transform: scale(1.1);
+    color: rgb(255, 255, 255);
+}
+.titulo-carta{
+    font-family: sans;
+    color: #4f027c;
 }

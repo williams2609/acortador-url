@@ -18,8 +18,8 @@ const User = sequelize.define('User',{
     },phone_number:{
         type:DataTypes.STRING,
         allowNull:false,
-
-    }
+    },is_paid_user:DataTypes.BOOLEAN
+    
 });
 
 module.exports = User;
