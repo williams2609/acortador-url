@@ -6,8 +6,13 @@ const authMiddleware = require('../Middleware/authMiddleware');
 const User = require('../Modelos/userModel');
 
 router.post('/register',async (req,res)=>{
-    const {username,password,email,phone_number} = req.body
+    const { username,password,email,phone_number } = req.body
+    
 
+    // Validar que todos los campos estén presentes
+    if (!username || !email || !password || !phone_number) {
+        return res.status(400).json({ error: "Todos los campos son requeridos." });
+    }
   try{  
 
     const userExist = await User.findOne({where: {username}})
@@ -60,6 +65,21 @@ try{
     }catch(error){
         console.error("error en /login",error);
         return res.status(500).send({error:"Error interno del servidor"})
+    }
+})
+router.get('/me',authMiddleware,async (req,res)=>{
+
+    try{
+        const user = await User.findByPk(req.user.id ,{
+            attributes:['username','email','phone_number']
+        })
+        if(!user){
+            return res.status(404).send({error:'Usuario no encontrado'})
+        }
+        return res.status(200).json(user)
+    }catch(error) {
+        console.log('error en /me')
+        res.status(500).send({error:'Error interno en el servidor'})
     }
 })
 

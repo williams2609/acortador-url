@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 	res.send("API de acortador de URL");
 });
 // Iniciar el servidor
-sequelize.sync().then(()=>{
+sequelize.sync({alter:true}).then(()=>{
 	app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });

@@ -1,12 +1,11 @@
 
-const {DataTypes}= require('sequelize');
+const {DataTypes, Sequelize}= require('sequelize');
 const sequelize = require('../db');
 
 const User = sequelize.define('User',{
     username:{
         type:DataTypes.STRING,
         allowNull: false,
-        anique:true,
     },
         password:{
         type: DataTypes.STRING,
@@ -18,8 +17,16 @@ const User = sequelize.define('User',{
     },phone_number:{
         type:DataTypes.STRING,
         allowNull:false,
-    },is_paid_user:DataTypes.BOOLEAN
-    
-});
+    },is_paid_user:{
+        type:DataTypes.BOOLEAN,
+    defaultValue : false,},
+    subscriptionType:{
+        type:DataTypes.ENUM('basic','platino','diamante'),
+        allowNull:true,
+        defaultValue:"basic",
+    }
+    },{
+        tableName:"users"
+    });
 
 module.exports = User;

@@ -10,11 +10,11 @@ function BarraNavegacion() {
         <Link to="/" className='m-0 logo'><strong>URLify</strong></Link>
         </div>
         <div className='links'>
-            links
+            Graficos
         </div>
-        <div>
-            opciones
-        </div>
+          <div>
+            <Link to="/Login">Login</Link>
+          </div>
         </div>
     </nav>
   )

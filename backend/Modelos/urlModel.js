@@ -3,15 +3,13 @@ const {DataTypes} = require('sequelize');
 const sequelize = require('../db');
 const User = require('./userModel')
 
-const Url = sequelize.define("Url",{
+const Url = sequelize.define("url",{
     original_url:{
        type: DataTypes.STRING,
        allowNull: false,
-       unique: true
     },short_url:{
         type:DataTypes.STRING,
         allowNull:false,
-        unique:true
     },created_at:{
         type:DataTypes.DATE,
         allowNull:true,
@@ -20,6 +18,13 @@ const Url = sequelize.define("Url",{
         type:DataTypes.DATE,
         allowNull:true,
         field:"expiration_date"
+    },userId:{
+        type:DataTypes.INTEGER,
+        allowNull:false,
+        references:{
+            model:'users',
+            key:'id'
+        }
     }
 }
     ,{
@@ -28,5 +33,6 @@ const Url = sequelize.define("Url",{
     });
     
     Url.belongsTo(User,{foreignKey:'userId'});
+    User.hasMany(Url, { foreignKey: 'userId' });
 
 module.exports = Url

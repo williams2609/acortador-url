@@ -5,6 +5,7 @@ const User = require('../Modelos/userModel');
 const Url = require('../Modelos/urlModel');
 const https = require('https')
 const { default: axios } = require('axios');
+const verifyToken = require('../Middleware/verifyToken')
 
 // Ruta para acortar URLs
 router.post('/acortar', async (req, res) => {
@@ -71,7 +72,7 @@ router.post('/acortar', async (req, res) => {
 });
 
 // Ruta para redirigir URLs
-router.get('/:short_url', async (req, res) => {
+router.get('/:short_url',verifyToken, async (req, res) => {
     const { short_url } = req.params;
     const urlEntry = await Url.findOne({where: {short_url}});
     
@@ -101,7 +102,7 @@ router.put('/modificar/:short_url',async (req,res)=>{
         if(!urlEntry){
             return res.status(400).send({error:'la url corta no existe'})
         }
-        const urlShortExist = await Url.findOne({where:{short_url}})
+        const urlShortExist = await Url.findOne({where:{short_url: new_short_url}})
         if (urlShortExist){
             return res.status(400).send({error:'la Nueva url corta ya existe'})
         }
