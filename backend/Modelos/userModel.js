@@ -11,10 +11,14 @@ const User = sequelize.define('User',{
         type: DataTypes.STRING,
         allowNull:false
     },email:{
-        type:DataTypes.STRING,
-        allowNull:false,
-        unique:true
-    },phone_number:{
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true, // Validación de formato de email
+        }
+    }
+    ,phone_number:{
         type:DataTypes.STRING,
         allowNull:false,
     },is_paid_user:{

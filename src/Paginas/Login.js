@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './Estilos/login.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../Componentes/AuthProvider';
 
 
 function Login() {
@@ -13,6 +14,7 @@ function Login() {
 		const [success,setSuccess]= useState("")
 		const navigate = useNavigate()
 
+    const {login} = useAuth()
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -47,12 +49,17 @@ function Login() {
         // Resetear errores si el formulario es válido
         setErrors({});
 				try{
-						const response = await axios.post('http://localhost:5000/api/users/login',{
+						const response = await axios.post('http://localhost:5000/users/login',{
 							username: inputValue.name,
 							password: inputValue.password
 						})
 						console.log(response.data)
 						setSuccess(response.data.message)
+                        const {token} = response.data
+                        login(token)
+                        localStorage.setItem('token',token);
+                        console.log(token)
+                        navigate('/perfil')
 				}catch(err){
 					setErrors(err)
 				}
@@ -72,9 +79,9 @@ function Login() {
                             type="text"
                             value={inputValue.name}
                             onChange={handleInput}
-                            placeholder="Ingresa tu email"
+                            placeholder="Ingresa tu nombre"
                         />
-                        {errors.email && <div className="invalid-feedback">{errors.name}</div>}
+                        {errors.name && <div className="invalid-feedback">{errors.name}</div>}
 
                         <label className="mt-3 mb-2">Contraseña:</label>
                         <input

@@ -1,23 +1,29 @@
-import React from 'react'
-import './Estilos/Navbar.css'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import './Estilos/Navbar.css';
+import { Link } from 'react-router-dom';
+import { useAuth } from './AuthProvider';
+ // Asegúrate de importar el contexto
 
 function BarraNavegacion() {
+  const { isLogged } = useAuth(); // Obtener el estado de autenticación desde el contexto
+  console.log(isLogged)
   return (
-    <nav className='navbarr w-100 p-3'>
-        <div className='contenedor-items container d-flex justify-content-between'>
+    <nav className='navbar'>
+      <div className='container d-flex justify-content-between align-items-center'>
         <div className='logo-navbar'>
-        <Link to="/" className='m-0 logo'><strong>URLify</strong></Link>
+          <Link to="/" className='logo'><strong>URLify</strong></Link>
         </div>
-        <div className='links'>
-            Graficos
+        <div className='nav-links'>
+          <Link to="/graficos" className='nav-item'>Gráficos</Link>
+          {!isLogged ? (
+            <Link to="/login" className='nav-item'>Login</Link>
+          ) : (
+            <Link to="/perfil" className='nav-item'>Perfil</Link>
+          )}
         </div>
-          <div>
-            <Link to="/Login">Login</Link>
-          </div>
-        </div>
+      </div>
     </nav>
-  )
+  );
 }
 
-export default BarraNavegacion
+export default BarraNavegacion;

@@ -9,7 +9,7 @@ const authMiddleware = (req, res,next)=>{
         if(error){
             return res.status(401).send({error:'Token invalido'})
         }
-        req.userId = decoded.id
+        req.user = decoded
         next()
     })
 }

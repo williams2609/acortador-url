@@ -1,19 +1,21 @@
-const jwt = require('jsonwebtoken')
-const secret = '21424683'
+const jwt = require('jsonwebtoken');
 
-const verifyToken = (req, res, next) =>{
-    const token = req.header['authorization'];
+const verifyToken = (req, res, next) => {
+    const authHeader = req.headers['authorization']; // Obtiene el encabezado de autorización
+    const token = authHeader && authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null; // Extrae el token
 
-    if(!token){
-      return res.status(403).send({error:'No se Ha Proporcionado un token'})
-
+    if (!token) {
+        return res.status(401).send({ error: 'Token no proporcionado' }); // Si no hay token, envía un error
     }
-    jwt.verify(token,secret,(err,decoded)=>{
-        if(err){
-            return res.status(401).send({message: 'token no valido'})
+
+    // Verifica el token usando tu secreto
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).send({ error: 'Token no válido' }); // Si el token no es válido, envía un error
         }
-        req.user = decoded
-        next()
+        req.user = user; // Si es válido, guarda el usuario en la solicitud
+        next(); // Llama al siguiente middleware
     });
 };
+
 module.exports = verifyToken;

@@ -12,8 +12,8 @@ const Url = sequelize.define("url",{
         allowNull:false,
     },created_at:{
         type:DataTypes.DATE,
-        allowNull:true,
-        field:"created_at"
+        field:"created_at",
+        defaultValue: DataTypes.NOW
     },expiration_date:{
         type:DataTypes.DATE,
         allowNull:true,
@@ -29,7 +29,7 @@ const Url = sequelize.define("url",{
 }
     ,{
         tableName: "urls",
-        timestamps: false
+        timestamps: true
     });
     
     Url.belongsTo(User,{foreignKey:'userId'});

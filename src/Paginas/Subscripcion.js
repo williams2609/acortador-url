@@ -1,6 +1,10 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Subscripcion() {
+
+  const navigate = useNavigate()
+
   return (
     <div className="subscripcion">
     {/* Banner Inicial */}
@@ -25,7 +29,7 @@ function Subscripcion() {
                 <li>10 URLs cortas por mes</li>
                 <li>Soporte limitado por correo electrónico</li>
               </ul>
-              <button className="btn btn-outline-primary btn-block">Seleccionar</button>
+              <button className="btn btn-outline-primary btn-block" onClick={()=>navigate('/register')}>Seleccionar</button>
             </div>
           </div>
         </div>

@@ -81,4 +81,7 @@
 .titulo-carta{
     font-family: sans;
     color: #4f027c;
+}.link-url-personalizadas{
+    
+    text-decoration: none;
 }

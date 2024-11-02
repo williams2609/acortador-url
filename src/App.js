@@ -6,6 +6,7 @@ import { Route, BrowserRouter as Router, Routes} from 'react-router-dom';
 import Subscripcion from './Paginas/Subscripcion';
 import Login from './Paginas/Login';
 import Register from './Paginas/Register';
+import Perfil from './Paginas/Perfil';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/Subscripción' element={<Subscripcion/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
+          <Route path='/perfil' element={<Perfil/>}/>
         </Routes>
      </Router>
     </div>

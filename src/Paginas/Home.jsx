@@ -9,7 +9,7 @@ function Home() {
 
 const [isPaid,setIsPaid]= useState(false)
 const [shortUrl,setShortUrl]= useState("")
-const [originalUrl,setOriginalUrl]=useState("")
+const [originalUrl,setOriginalUrl]= useState("")
 const [error,setError] = useState(false)
 const [expire,setExpire]= useState("")
 
@@ -18,13 +18,28 @@ const handleInputUrl = async (e)=>{
 	setError('')
 	setShortUrl('');
 	setExpire('')
-	try{	
-			const response = await axios.post("http://localhost:5000/url/acortar",{
-			original_url:originalUrl,
-			is_paid_user: isPaid
-		});
-		setShortUrl(`${response.data.short_url}`)
 
+    const token = localStorage.getItem('token')
+    
+
+        let formatedUrl = originalUrl.trim(); // Remueve espacios adicionales
+    
+        // Verifica si la URL no comienza con "http://" o "https://"
+        if (!/^https?:\/\//i.test(formatedUrl)) {
+            formatedUrl = `https://${formatedUrl}`; // Añade el prefijo solo si falta
+        }
+
+	try{	
+			const response = await axios.post("http://localhost:5000/acortar",{
+			original_url: formatedUrl,
+			is_paid_user: isPaid
+		}, {
+            headers: {
+                Authorization: `Bearer ${token}` // Incluyendo el token en el encabezado
+            }
+    });
+		setShortUrl(`${response.data.short_url}`)
+        
 		if(response.data.expiration_date){
 			const expiration = new Date(response.data.expiration_date)
 			setExpire(expiration.toLocaleString())
@@ -36,8 +51,9 @@ const handleInputUrl = async (e)=>{
 	}catch(error){
 		setError(error.response ? error.response.data.error : "Error Al Acortar El Url")
 	}
-
 };
+
+
 
   return (
     <div  className='contenedor-home'>
@@ -92,7 +108,7 @@ const handleInputUrl = async (e)=>{
                 name='originalUrl'
                 value={originalUrl}
                 placeholder='Ingrese una URL larga'
-                onChange={(e) => setOriginalUrl(e.target.value)}
+                onChange={(e)=> setOriginalUrl(e.target.value)}
                 required
             />
 
@@ -102,8 +118,8 @@ const handleInputUrl = async (e)=>{
                 <div className='mt-4 d-flex text-center align-items-center justify-content-center'style={{flexDirection:"column"}}>
                     <div className='d-flex'>
                     <label className='d-block me-2'>URL Acortada</label>
-                    <a href={`http://localhost:5000/url/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
-                        <p className='short-url'>{shortUrl}</p>
+                    <a href={`http://localhost:5000/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
+                        <p className='short-url'>{`http://localhost:5000/url/${shortUrl}`}</p>
                     </a>
                     </div>
                     <p className='text-muted'>Fecha de expiración: {expire}</p>
@@ -112,7 +128,7 @@ const handleInputUrl = async (e)=>{
             
             {error &&<div className='d-flex text-center justify-content-center'> <Alert className='mt-3' variant='danger' style={{minWidth:"400px"}}>{error}</Alert></div>}
 						<div className='text-start mt-5'>
-                        <Link className="border rounded p-2 mt-3" to="Subscripción"style={{textDecoration:"none", color:"black"}}>Modifica El Nombre De tu Url</Link>
+                        <Link className="border rounded-5 p-2 mt-3 link-url-personalizadas" to="Subscripción">Urls Personalizadas <i className='bi bi-arrow-right'></i></Link>
                         </div>
                         <div className='d-flex mt-5 justify-content-between'>
 						<span className='mt-2'style={{fontSize:"0.8rem"}}>Obten hasta 10 url Totalmente Gratis al mes</span>

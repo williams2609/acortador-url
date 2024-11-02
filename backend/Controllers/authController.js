@@ -60,7 +60,7 @@ try{
    
 }
 
-    const token = jwt.sign({id: user.id,username: user.username},process.env.JWT_SECRET,{expiresIn: '3h'})
+    const token = jwt.sign({id: user.id,username: user.username},process.env.JWT_SECRET,{expiresIn: '5h'})
     return res.status(200).send({message: '!Inicio de Sesion Exitoso¡',token})
     }catch(error){
         console.error("error en /login",error);
@@ -71,7 +71,7 @@ router.get('/me',authMiddleware,async (req,res)=>{
 
     try{
         const user = await User.findByPk(req.user.id ,{
-            attributes:['username','email','phone_number']
+            attributes:['username','email','phone_number','createdAt']
         })
         if(!user){
             return res.status(404).send({error:'Usuario no encontrado'})
