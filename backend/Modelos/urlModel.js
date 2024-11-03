@@ -25,6 +25,9 @@ const Url = sequelize.define("url",{
             model:'users',
             key:'id'
         }
+    },click_count:{
+        type:DataTypes.INTEGER,
+        defaultValue: 0
     }
 }
     ,{

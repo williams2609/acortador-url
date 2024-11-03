@@ -14,13 +14,16 @@ function BarraNavegacion() {
           <Link to="/" className='logo'><strong>URLify</strong></Link>
         </div>
         <div className='nav-links'>
-          <Link to="/graficos" className='nav-item'>Gráficos</Link>
+          <Link to="/estadisticas" className='nav-item'>Estadisticas</Link>
+          <Link to="/graficos" className='nav-item'>Recursos</Link>
+          <Link to="/perfil" className='nav-item'>Planes</Link>
           {!isLogged ? (
             <Link to="/login" className='nav-item'>Login</Link>
           ) : (
             <Link to="/perfil" className='nav-item'>Perfil</Link>
           )}
-        </div>
+            
+            </div>
       </div>
     </nav>
   );

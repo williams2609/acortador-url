@@ -39,7 +39,7 @@ function Perfil() {
         ]);
         setUserData(userResponse.data);
         setUrls(urlsResponse.data);
-        console.log(urlsResponse.data)
+        console.log(userResponse.data)
       } catch (err) {
         if (err.response && err.response.status === 401) {
           localStorage.removeItem('token');

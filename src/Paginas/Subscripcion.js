@@ -1,10 +1,48 @@
-import React from 'react'
+import { PayPalButtons } from '@paypal/react-paypal-js'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import PayPalComponent from '../Componentes/PaypalComponent'
+import axios from 'axios'
 
 function Subscripcion() {
 
+  const [userId,setUserId]= useState('');
+  const [membershipType,setMembershipType]= useState('');
+  const fetchData = async()=>{
+    const token = localStorage.getItem('token')
+    if(!token){
+      return console.error('Sin token de verificacion')
+    }
+
+    try{
+      const response = await axios.get('http://localhost:5000/users/me', {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      console.log(response.data)
+      setUserId(response.data.id)
+      setMembershipType(response.data.subscriptionType)
+    }catch(err){
+      return console.error('Error al intentar acceder al usuario',err)
+    }
+  }
+useEffect(()=>{
+  fetchData()
+},[])
   const navigate = useNavigate()
 
+const handleUpgrade = async (membership) => {
+  console.log(membership)
+    try {
+        const token = localStorage.getItem('token');
+        const response = await axios.post('http://localhost:5000/users/upgrade', 
+            { userId, membership },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+        console.log(response.data.message); // Mensaje de éxito
+    } catch (err) {
+        console.error('Error al actualizar la suscripción:', err);
+    }
+};
   return (
     <div className="subscripcion">
     {/* Banner Inicial */}
@@ -38,7 +76,7 @@ function Subscripcion() {
         <div className="col-md-4">
           <div className="card shadow">
             <div className="card-header bg-info text-white">
-              <h4 className="card-title">Plan Intermedio</h4>
+              <h4 className="card-title">Plan Platino</h4>
             </div>
             <div className="card-body">
               <h2 className="card-price">$3.99 / mes</h2>
@@ -48,7 +86,7 @@ function Subscripcion() {
                 <li>Soporte prioritario por correo</li>
                 <li>Estadísticas avanzadas</li>
               </ul>
-              <button className="btn btn-primary btn-block">Seleccionar</button>
+              <PayPalComponent membershipType='platino' onUpgrade={handleUpgrade}></PayPalComponent>
             </div>
           </div>
         </div>
@@ -57,7 +95,7 @@ function Subscripcion() {
         <div className="col-md-4">
           <div className="card shadow">
             <div className="card-header bg-dark text-white">
-              <h4 className="card-title">Plan Premium</h4>
+              <h4 className="card-title">Plan Diamante</h4>
             </div>
             <div className="card-body">
               <h2 className="card-price">$5.99 / mes</h2>
@@ -68,7 +106,7 @@ function Subscripcion() {
                 <li>Estadísticas detalladas en tiempo real</li>
                 <li>Personalización de URLs</li>
               </ul>
-              <button className="btn btn-dark btn-block">Seleccionar</button>
+              <PayPalComponent membershipType='diamante' onUpgrade={handleUpgrade}></PayPalComponent>
             </div>
           </div>
         </div>

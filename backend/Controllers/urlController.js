@@ -98,11 +98,13 @@ router.get('/:short_url',async (req, res) => {
         const urlEntry = await Url.findOne({ where: { short_url } });
 
         if (urlEntry) {
-            const { expiration_date, original_url } = urlEntry;
-
+            const { expiration_date, original_url} = urlEntry;
+            
+    
             if (expiration_date && new Date(expiration_date) < new Date()) {
                 return res.status(404).send({ error: 'Esta URL ha expirado' });
             }
+            await urlEntry.increment('click_count')
 
             return res.redirect(original_url);
         } else {
@@ -158,5 +160,6 @@ router.delete('/eliminar/:short_url',verifyToken, async (req,res)=>{
         return res.status(500).send({ error: 'Error interno del servidor' });
     }
 });
+
 
 module.exports = router;

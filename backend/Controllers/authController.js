@@ -71,7 +71,7 @@ router.get('/me',authMiddleware,async (req,res)=>{
 
     try{
         const user = await User.findByPk(req.user.id ,{
-            attributes:['username','email','phone_number','createdAt']
+            attributes:['id','username','email','phone_number','createdAt','is_paid_user','subscriptionType']
         })
         if(!user){
             return res.status(404).send({error:'Usuario no encontrado'})
@@ -81,6 +81,29 @@ router.get('/me',authMiddleware,async (req,res)=>{
         console.log('error en /me')
         res.status(500).send({error:'Error interno en el servidor'})
     }
+})
+router.post('/upgrade',async(req,res)=>{
+    const { userId,membership } = req.body;
+
+    if(!userId || !membership){
+        return res.status(400).send({error:'faltan datos para actualizar la suscripcion'})
+    }
+   try{
+    const user = await User.findByPk(userId);
+    if(!user){
+        res.status(404).send({error:'Usuario no Encontrado'})
+    }
+
+    const is_paid_user = membership !== 'basic'
+    user.subscriptionType = membership;
+    user.is_paid_user = is_paid_user;
+    await user.save()
+
+}catch(err){
+    console.error('Error al actualizar subscripcion' ,err);
+    res.status(500).send({error:'Error interno en servidor'})
+}
+
 })
 
 module.exports = router;

@@ -7,6 +7,7 @@ import Subscripcion from './Paginas/Subscripcion';
 import Login from './Paginas/Login';
 import Register from './Paginas/Register';
 import Perfil from './Paginas/Perfil';
+import Estadisticas from './Paginas/Estadisticas';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='/login' element={<Login/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/perfil' element={<Perfil/>}/>
+          <Route path='/estadisticas' element={<Estadisticas/>}/>
         </Routes>
      </Router>
     </div>
