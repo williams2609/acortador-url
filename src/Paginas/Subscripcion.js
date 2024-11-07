@@ -46,9 +46,9 @@ const handleUpgrade = async (membership) => {
   return (
     <div className="subscripcion">
     {/* Banner Inicial */}
-    <div className="jumbotron text-center text-white py-5 mt-5">
-      <h1 className="display-4">¡Elige tu Plan de Suscripción!</h1>
-      <p className="lead">Descubre todas las ventajas que ofrecemos con nuestros planes de suscripción mensual.</p>
+    <div className="jumbotron text-center text-white py-5 mt-5" style={{color: 'black'}}>
+      <h1 className="display-4" style={{color: 'black'}}>¡Elige tu Plan de Suscripción!</h1>
+      <p className="lead" style={{color: 'black'}}>Descubre todas las ventajas que ofrecemos con nuestros planes de suscripción mensual.</p>
     </div>
 
     {/* Sección de Opciones de Planes */}

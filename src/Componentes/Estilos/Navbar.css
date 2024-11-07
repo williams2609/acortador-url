@@ -1,59 +1,65 @@
-.navbar {
-    background-color: #343a40; /* Color de fondo oscuro */
-    padding: 15px 0; /* Espaciado superior e inferior */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil */
-  }
-  
-  .container {
-    max-width: 1200px; /* Ancho máximo del contenedor */
-    margin: 0 auto; /* Centrar el contenedor */
-    padding: 0 20px; /* Espaciado lateral */
-    display: flex; /* Flexbox para alineación */
-    justify-content: space-between; /* Espaciado entre elementos */
-    align-items: center; /* Alinear elementos verticalmente */
-  }
-  
-  .logo-navbar {
-    font-size: 1.5em; /* Tamaño del logo */
-  }
-  
-  .logo {
-    color: #ffffff; /* Color del texto */
-    text-decoration: none; /* Sin subrayado */
-  }
-  
-  .nav-links {
-    display: flex; /* Flexbox para los enlaces */
-    gap: 20px; /* Espacio entre enlaces */
-  }
-  
-  .nav-item {
-    color: #ffffff; /* Color de texto para los enlaces */
-    text-decoration: none; /* Sin subrayado */
-    padding: 8px 12px; /* Espaciado interno */
-    border-radius: 4px; /* Bordes redondeados */
-    transition: background-color 0.3s; /* Transición suave para el fondo */
-  }
-  
-  .nav-item:hover {
-    background-color: #495057; /* Color de fondo al pasar el mouse */
-  }
-  
-  /* Estilos responsivos */
-  @media (max-width: 768px) {
-    .nav-links {
-      flex-direction: column; /* Enlaces en columna en pantallas pequeñas */
-      position: absolute; /* Posición absoluta para el menú */
-      top: 60px; /* Espaciado desde la parte superior */
-      right: 0; /* Alinear a la derecha */
-      background-color: #343a40; /* Fondo del menú */
-      padding: 10px; /* Espaciado interno del menú */
-      border-radius: 4px; /* Bordes redondeados */
-      display: none; /* Ocultar por defecto */
-      z-index: 1; /* Colocar por encima */
+.navbarr{
+    position: fixed;
+    background-color: rgba(42, 48, 105, 0.342);
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 15px;
+    backdrop-filter: blur(7px);
+    z-index: 40;
+    list-style: none
+}.nav-item{
+    color: black;
+    text-decoration: none;
+    margin-left: 45px;
+}
+.logo{
+    color: black;
+    text-decoration: none;
+
+}.hamburguer-button .bar{
+    width: 30px;
+    height: 3px;
+    background-color: rgb(0, 0, 0);
+    margin: 5px;
+    transition: 0.3s ease-in, opacity 0.4s ease;
+}.hamburguer-button{
+    cursor: pointer;
+}.hamburguer-button.open .bar:nth-child(1){
+    transform: translateY(8px)rotate(45deg);
+}.hamburguer-button.open .bar:nth-child(2){
+    display: none;
+}.hamburguer-button.open .bar:nth-child(3){
+    transform: rotate(-40deg);
+}.nav-links{display: none;}
+.contenedor-navbar{
+    flex-wrap: wrap;
+}
+.nav-links{
+    text-align: center;
+    
+}
+@media (min-width: 770px ){
+    .hamburguer-button{
+        display: none;
     }
-  
-    .navbar:hover .nav-links {
-      display: flex; /* Mostrar enlaces al pasar el mouse */
+    .nav-links{display: flex;}
+}@media (max-width: 570px ){
+    .nav-links.show{
+        
+        flex-direction: column;
     }
-  }
+}@media (max-width: 770px ){
+    .nav-links.show{
+        
+        text-align: center;
+        justify-content: center;
+    }
+}
+.nav-links.show{
+    display: flex;
+
+}.nav-links.show .nav-item{
+    margin-top: 15px;
+    margin-bottom: 5px;
+}

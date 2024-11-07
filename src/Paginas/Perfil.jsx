@@ -198,8 +198,8 @@ function Perfil() {
   }
 
   return (
-    <div className="perfil-container">
-      <div className="sidebar">
+    <div className="perfil-container mt-5">
+      <div className="sidebar mt-2">
         <h2>{userData?.username}</h2>
         <p>Miembro desde: {userData?.createdAt.split('T')[0]}</p>
         <p>Total de URLs Acortadas: {urlStats.totalUrls}</p>
@@ -211,7 +211,7 @@ function Perfil() {
       <div className="perfil-main">
         {error && <p className="error">{error.message || JSON.stringify(error)}</p>}
 
-        <header className="header">
+        <header className="header mt-2">
           {userData && <h2 className="welcome-msg">Bienvenido, {userData.username}</h2>}
         </header>
 

@@ -5,6 +5,37 @@ const Url = require('../Modelos/urlModel');
 const https = require('https');
 const axios = require('axios');
 const verifyToken = require('../Middleware/verifyToken');
+const Sequelize = require('sequelize');
+const Click = require('../Modelos/clickModel');
+
+router.get('/urls-clicks', verifyToken, async (req, res) => {
+    const userId = req.user.id; // Obtiene el ID del usuario desde el token
+    const { view = 'total' } = req.query;
+    
+    try {
+        let urls;
+        
+        if (view === 'total') {
+            urls = await Url.findAll({
+                where: { userId },
+                attributes: [
+                    'short_url',
+                    'original_url',
+                    [Sequelize.fn('SUM', Sequelize.col('click_count')), 'total_clicks']
+                ],
+                group: ['short_url', 'original_url']
+            });
+        }else {
+            return res.status(400).send({ error: 'Vista no válida' });
+        }
+
+       res.status(200).json(urls);
+    } catch (err) {
+        console.error('Error en la ruta GET /urls-clicks:', err);
+        return res.status(500).send({ error: 'Error interno del servidor' });
+    }
+});
+
 
 // Ruta GET /url/user-urls
 router.get('/user-urls', verifyToken, async (req, res) => {
@@ -15,7 +46,7 @@ router.get('/user-urls', verifyToken, async (req, res) => {
             where: { userId },
             order: [['created_at', 'DESC']], // Asegúrate de usar el nombre correcto de la columna
         });
-
+        
         return res.status(200).json(userUrls);
     } catch (err) {
         console.error('Error en la ruta GET /url/user-urls:', err);
@@ -104,7 +135,11 @@ router.get('/:short_url',async (req, res) => {
             if (expiration_date && new Date(expiration_date) < new Date()) {
                 return res.status(404).send({ error: 'Esta URL ha expirado' });
             }
-            await urlEntry.increment('click_count')
+            await Click.create({
+                url_id: urlEntry.id,
+                click_time: new Date()
+            });
+            await urlEntry.increment('click_count',{by: 1 });
 
             return res.redirect(original_url);
         } else {
@@ -155,11 +190,14 @@ router.delete('/eliminar/:short_url',verifyToken, async (req,res)=>{
             return res.status(404).send({error: 'Url No encontrada o no Autorizada'})
         }
         await urlEntry.destroy()
+        return res.status(200).send({ message: 'URL eliminada correctamente' });
+
     }catch(err){
         console.error('Error en la ruta DELETE /eliminar/:short_url:', err);
         return res.status(500).send({ error: 'Error interno del servidor' });
     }
 });
+
 
 
 module.exports = router;

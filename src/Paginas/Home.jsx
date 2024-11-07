@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import './Estilos/home.css'
 import axios from 'axios'
-import logo from './imagenes/Captura_de_pantalla_2024-10-21_205200-removebg-preview.png'
+import logo from './imagenes/graf-removebg-preview.png'
 import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
+import grafico from './imagenes/grafico.png'
 
 function Home() {
 
@@ -62,7 +63,7 @@ const handleInputUrl = async (e)=>{
 		<section className='seccion-entrada'>
     <div className='container'>
         <section className='row'>
-            <div className='col-md-7 col-12 contenedor-titulo-entrada mt-5'>
+            <div className='col-lg-6 col-12 contenedor-titulo-entrada mt-5'>
                 <h1 className='mt-5 ms-5 titulo-principal'>
                     Simplifica tu Experiencia en Línea con URLs Cortas
                 </h1>
@@ -78,10 +79,10 @@ const handleInputUrl = async (e)=>{
                     <li>🔒 **Seguridad Aumentada**: Protege tus enlaces con medidas de seguridad adicionales.</li>
                 </ul>
                 <div className='d-flex justify-content-start mt-4 ms-5 mb-4 mt-5'>
-                    <a href="/Subscripción" className='boton-prueba btn btn-lg'style={{color:'white'}}>¡Prueba URLify Gratis Ahora!</a>
+                    <a href="/Subscripción" className='boton-prueba btn btn-lg mt-5'style={{color:'white'}}>¡Prueba URLify Gratis Ahora!</a>
                 </div>
             </div>
-            <div className='col-md-5 col-sm-12 contenedor-imagen-logo d-flex align-items-center justify-content-center'>
+            <div className='col-lg-5 col-12 contenedor-imagen-logo d-flex align-items-start'>
                 <img className='logo-url mt-5 img-fluid' src={logo} alt="Logo de URLify" />
             </div>
         </section>
@@ -147,7 +148,16 @@ const handleInputUrl = async (e)=>{
             <li>✏️ <strong>Enlaces Personalizados:</strong> Crea URLs que reflejen tu marca o mensaje.</li>
         </ul>
     </div>
+    <div className='contenedor-grafico'>
+			<div className='contenedor-descripcion-grafico'>
+			<h3>Sigue Desde Cerca Cada Url</h3>
+			<p>En Nuestra plataforma puedes hacer seguimiento de tus url,la Cantidad De clicks totales, diarios o por horas </p>
+			</div>
+			<div className='contenedor-grafico'>
+				<img src={grafico} className='img-fluid rounded-3'></img>
 
+			</div>
+		</div>   
     <div className='mt-5'>
         <h4>Testimonios de Nuestros Usuarios</h4>
         <blockquote className='blockquote'>

@@ -7,23 +7,27 @@ function UrlChart({ urls, createdAt }) {
     const startDate = new Date(createdAt);
     const endDate = new Date();
     let currentDate = new Date(startDate);
+    console.log(urls)
 
+    // Inicializar dateCounts con todas las fechas en el rango
     while (currentDate <= endDate) {
-      const date = currentDate.toLocaleDateString();
+      const date = currentDate.toISOString().split('T')[0]; // Formato de fecha 'YYYY-MM-DD'
       dateCounts[date] = 0;
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
+    // Contar URLs creadas por cada fecha
     urls.forEach((url) => {
       const created_at = new Date(url.createdAt);
       if (!isNaN(created_at)) {
-        const date = created_at.toLocaleDateString();
+        const date = created_at.toISOString().split('T')[0];
         if (dateCounts[date] !== undefined) {
           dateCounts[date] += 1;
         }
       }
     });
 
+    // Obtener etiquetas y datos del gráfico
     const labels = Object.keys(dateCounts);
     const data = Object.values(dateCounts);
     return { labels, data };

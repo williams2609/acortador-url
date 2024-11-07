@@ -34,6 +34,7 @@ const PayPalComponent = ({ membershipType, onUpgrade }) => {
                 }}
                 onError={(err) => {
                     console.error("Error en la transacción:", err);
+                    alert("Ocurrió un error en el proceso de pago. Por favor, intenta de nuevo.");
                 }}
             />
         </PayPalScriptProvider>
