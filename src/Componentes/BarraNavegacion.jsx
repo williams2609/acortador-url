@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Estilos/Navbar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
  // Asegúrate de importar el contexto
 
@@ -10,6 +10,15 @@ function BarraNavegacion() {
   const { isLogged } = useAuth(); // Obtener el estado de autenticación desde el contexto
   console.log(isLogged)
 
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isLogged) {
+      // Si el usuario no está autenticado, redirigir a la página de inicio de sesión
+      navigate('/login');
+    }
+  }, [isLogged]);
+  
   const handleOpen =()=> setIsOpen(!isOpen)
   return (
     <nav className='navbarr'>

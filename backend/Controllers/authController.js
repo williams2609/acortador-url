@@ -60,7 +60,13 @@ try{
    
 }
 
-    const token = jwt.sign({id: user.id,username: user.username},process.env.JWT_SECRET,{expiresIn: '5h'})
+    const token = jwt.sign({
+        id: user.id,
+        username: user.username,
+        subscriptionType: user.subscriptionType,
+        is_paid_user: user.is_paid_user
+    },process.env.JWT_SECRET,
+    {expiresIn: '5h'})
     return res.status(200).send({message: '!Inicio de Sesion Exitoso¡',token})
     }catch(error){
         console.error("error en /login",error);
@@ -98,7 +104,7 @@ router.post('/upgrade',async(req,res)=>{
     user.subscriptionType = membership;
     user.is_paid_user = is_paid_user;
     await user.save()
-
+    return res.status(200).send({ message: 'Suscripción actualizada con éxito' });
 }catch(err){
     console.error('Error al actualizar subscripcion' ,err);
     res.status(500).send({error:'Error interno en servidor'})

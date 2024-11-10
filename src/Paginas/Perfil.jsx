@@ -64,7 +64,7 @@ function Perfil() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUrls((prevUrls) => prevUrls.filter((url) => url.short_url !== shortUrl));
-     
+  
     } catch (err) {
       console.error('Error al intentar acceder a la ruta delete:', err.response ? err.response.data : err);
       setError('Error al eliminar la URL');
@@ -202,6 +202,7 @@ function Perfil() {
       <div className="sidebar mt-2">
         <h2>{userData?.username}</h2>
         <p>Miembro desde: {userData?.createdAt.split('T')[0]}</p>
+        <p>Tipo de Subscripción: {userData?.subscriptionType} </p>
         <p>Total de URLs Acortadas: {urlStats.totalUrls}</p>
         <a onClick={handleLogout} className="cerrar-sesion" aria-label="Cerrar sesión">
           Cerrar Sesión <i className="ms-2 bi bi-box-arrow-right"></i>

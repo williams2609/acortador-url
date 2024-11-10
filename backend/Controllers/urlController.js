@@ -7,8 +7,9 @@ const axios = require('axios');
 const verifyToken = require('../Middleware/verifyToken');
 const Sequelize = require('sequelize');
 const Click = require('../Modelos/clickModel');
+const subscriptionMiddleware = require('../Middleware/suscriptionMiddleware');
 
-router.get('/urls-clicks', verifyToken, async (req, res) => {
+router.get('/urls-clicks', verifyToken, subscriptionMiddleware('diamante'),async (req, res) => {
     const userId = req.user.id; // Obtiene el ID del usuario desde el token
     const { view = 'total' } = req.query;
     
@@ -59,6 +60,22 @@ router.get('/user-urls', verifyToken, async (req, res) => {
 router.post('/acortar', verifyToken, async (req, res) => {
     const { original_url, is_paid_user = false } = req.body; // Desestructuración
     const userId = req.user.id; // Obtiene el ID del usuario
+    let { short_url } = req.body
+    const { subscriptionType } = req.user
+
+    const urlLimits= {
+     basic: 10,
+     platino: 100,
+     diamante: Infinity
+    }
+
+    const userLimit = urlLimits[subscriptionType] || 10;
+
+    const urlCounts = await Url.count({ where:{userId} })
+    if(urlCounts >= userLimit){
+        return res.status(403).send({error: 'Haz alcanzado el Limite de urls Permitido por tu tipo de Subscripcón'})
+    }
+
 
     const checkedUrl = async (url) => {
         if (!/^https?:\/\//i.test(url)) {
@@ -94,11 +111,12 @@ router.post('/acortar', verifyToken, async (req, res) => {
         }
 
         const generateUniqueShortUrl = async () => {
-            let short_url;
+           
+            if(!short_url){
             do {
                 short_url = generateShortUrl();
             } while (await Url.findOne({ where: { short_url } }));
-
+            }
             const expiration_date = is_paid_user ? null : new Date(new Date().setMonth(new Date().getMonth() + 1));
 
             // Si no existe, inserta en la base de datos

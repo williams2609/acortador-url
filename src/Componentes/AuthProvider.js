@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 
 const AuthContext = createContext()
 
@@ -14,6 +14,7 @@ export const AuthProvider = ({children}) => {
         localStorage.removeItem('token')
         setIsLogged(false)
     }
+
 
   return (
     <AuthContext.Provider value={{ isLogged, login, logout }}>

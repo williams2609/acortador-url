@@ -4,6 +4,8 @@ import UrlChart from '../Componentes/UrlChart';
 import ClickChart from '../Componentes/ClickChart';
 import './Estilos/estadisticas.css';
 import { Card, Form, Row, Col } from 'react-bootstrap';
+import {useNavigate } from 'react-router-dom';
+
 
 
 
@@ -13,6 +15,8 @@ function Estadisticas() {
   const [viewOption, setViewOption] = useState('total');
   const [urlsClicks, setUrlsClicks] = useState([]);
   const [selectedUrlId, setSelectedUrlId] = useState(null);
+
+  const navigate = useNavigate()
 
   const fetchData = async () => {
     const token = localStorage.getItem('token');
@@ -39,6 +43,12 @@ function Estadisticas() {
         setSelectedUrlId(urlResponse.data[0].id);
       }
     } catch (err) {
+      if(err.response && err.response.status === 403){
+        const errorMessage = err.response.data.error
+        alert(errorMessage)
+        navigate('/Subscripción')
+      }
+
       console.error('Error al intentar acceder a los datos del usuario:', err);
     }
   };
@@ -46,7 +56,7 @@ console.log('clicks urls',urlsClicks)
   const fetchClickData = async () => {
     const token = localStorage.getItem('token');
     if (!selectedUrlId) return; // No hacer nada si no hay URL seleccionada
-
+    
     try {
       let response;
       if (viewOption === 'day') {
@@ -80,8 +90,8 @@ console.log('clicks urls',urlsClicks)
   }, [viewOption, selectedUrlId]);
 
   return (
-    <div className='container mt-5'>
-			<div className='row'>
+    <div className='mt-5 contenedor-estadisticas d-flex justify-content-center'>
+			<div className='row container'>
 			<Card className="mb-4 p-4 shadow-sm rounded-top-0">
         <Card.Body>
           <Card.Title className="text-center">Resumen General</Card.Title>

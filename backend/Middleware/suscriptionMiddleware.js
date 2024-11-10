@@ -1,20 +1,23 @@
 const User = require('../Modelos/userModel');
 
-const subscriptionMiddleware = (requireType)=>{
-    return async (req,res,next)=>{
-        const userId = req.userId
+const subscriptionMiddleware = (requireType) => {
+    return (req, res, next) => {
+        // Verifica que `req.user` esté definido correctamente
+        const { subscriptionType, is_paid_user, id: userId } = req.user;
 
-        const user = await User.findByPk(userId)
-        if(!user){
-            return res.status(404).send({error : 'Usuario no Encontrado'})
+        if (!userId) {
+            return res.status(401).send({ error: 'Usuario no autenticado' });
         }
-        if(!user.is_paid_user){
-            return res.status(403).send({error: 'Acceso Denegado, Se requiere una subscripción'})
+
+        if (!is_paid_user) {
+            return res.status(403).send({ error: 'Acceso Denegado: Se requiere una suscripción activa' });
         }
-        if(user.suscriptionType !== requireType){
-            return res.status(403).send({error:'Acceso Denegado: Tipo de suscripcion insuficiente'})
+
+        if (subscriptionType !== requireType) {
+            return res.status(403).send({ error: 'Acceso Denegado: Tipo de suscripción insuficiente' });
         }
-        next()
-    }
-}
+
+        next(); // Permite el acceso si cumple con todos los requisitos
+    };
+};
 module.exports = subscriptionMiddleware
