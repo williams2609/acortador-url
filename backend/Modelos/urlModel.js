@@ -1,5 +1,5 @@
 
-const {DataTypes} = require('sequelize');
+const {DataTypes, Sequelize} = require('sequelize');
 const sequelize = require('../db');
 const User = require('./userModel')
 
@@ -28,6 +28,9 @@ const Url = sequelize.define("url",{
     },click_count:{
         type:DataTypes.INTEGER,
         defaultValue: 0
+    }, qr_code:{
+        type: Sequelize.TEXT,
+        allowNull:true
     }
 }
     ,{

@@ -19,6 +19,8 @@ function Perfil() {
   const [editMode, setEditMode] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [ qrCode,setQrCode ] = useState(false);
+  const [ qrData, setQrData ] = useState({});
 
   // Función para manejar la eliminación de URL
   
@@ -39,7 +41,8 @@ function Perfil() {
         ]);
         setUserData(userResponse.data);
         setUrls(urlsResponse.data);
-        console.log(userResponse.data)
+        console.log(urlsResponse.data)
+        
       } catch (err) {
         if (err.response && err.response.status === 401) {
           localStorage.removeItem('token');
@@ -52,10 +55,31 @@ function Perfil() {
       }
     }
   };
+  const handleGenerateQr= async (urlId, shortUrl)=> {
+    const token = localStorage.getItem('token')
+    try{
+      const qrModifyResponse = await axios.put(`http://localhost:5000/generateQr/${shortUrl}`,{},{
+        headers: {Authorization:`Bearer ${token}` },
+      });
+
+      if (qrModifyResponse.data.qr_code) {
+        setQrData((prevQrData)=>({
+          ...prevQrData,[urlId]: qrModifyResponse.data.qr_code,
+        }));
+      }
+      console.log(qrData)
+      console.log(qrCode)
+  }catch(err){
+    console.error('error al intentar ingresan en /generateQr',err)
+    if(err.status === 403){
+      setError('Necesitas Una SUBSCRIPCIÓN para poder Generar QR')
+    }
+  }
+   }
   // Función para recuperar datos de usuario y URLs
   useEffect(() => {
     fetchData();
-  }, [navigate]);
+  }, [navigate,qrData]);
   
   const handleDelete = async (shortUrl) => {
     const token = localStorage.getItem('token');
@@ -67,7 +91,12 @@ function Perfil() {
   
     } catch (err) {
       console.error('Error al intentar acceder a la ruta delete:', err.response ? err.response.data : err);
-      setError('Error al eliminar la URL');
+      if(err.status === 403){
+      setError('Necesitas una SUBSCRIPCION para eliminar una URL');
+      }
+      else {
+        setError('Error al eliminar la URL');
+      }
     }
   };
 
@@ -114,23 +143,23 @@ function Perfil() {
   const handleEditClick = (urlId) => {
     setEditMode(urlId);
   };
+  
 
   const handleEditSave = async (urlId, newShortUrl, url) => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        await axios.put(
+         await axios.put(
           `http://localhost:5000/modificar/${url}`,
-          { new_short_url: newShortUrl },
+          { new_short_url: newShortUrl},
           { headers: { Authorization: `Bearer ${token}` } }
         );
-
+        
         setUrls((prevUrls) =>
           prevUrls.map((url) =>
             url.id === urlId ? { ...url, short_url: newShortUrl } : url // Actualiza solo el short_url
           )
         );
-
         setEditMode(null);
       } catch (err) {
         console.error('Error interno en Edit URL:', err);
@@ -230,6 +259,13 @@ function Perfil() {
                 >
                   {url.original_url}
                 </a>
+            <div>
+              {error && <p className='invalid-feedback'>Necesitas una Subscripcion para Generar Qr</p>}
+            {url.qr_code && (
+    <img src={url.qr_code} alt="Código QR" className="qr-code-img" />
+  )}
+            </div>
+
                 <div>
       {/* Muestra la URL base como texto sin editar */}
      
@@ -277,6 +313,10 @@ function Perfil() {
                           Editar
                         </span>
                         <i className="bi bi-pencil-square ms-2"></i>
+                      </div>
+                      <div>
+                        <span onClick={()=>{handleGenerateQr(url.id,url.short_url)}} className="me-2">Generar Qr</span>
+                      <i className="fas fa-qrcode"></i>
                       </div>
                     </div>
                     </div>

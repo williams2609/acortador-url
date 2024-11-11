@@ -8,7 +8,7 @@ const verifyToken = require('../Middleware/verifyToken');
 const Sequelize = require('sequelize');
 const Click = require('../Modelos/clickModel');
 const subscriptionMiddleware = require('../Middleware/suscriptionMiddleware');
-
+const QrCode = require('qrcode')
 router.get('/urls-clicks', verifyToken, subscriptionMiddleware('diamante'),async (req, res) => {
     const userId = req.user.id; // Obtiene el ID del usuario desde el token
     const { view = 'total' } = req.query;
@@ -169,10 +169,39 @@ router.get('/:short_url',async (req, res) => {
     }
 });
 
+router.put('/generateQr/:short_url', verifyToken,subscriptionMiddleware('platino'), async(req,res)=>{
+    const { short_url } = req.params;
+try{
+    const urlEntry = await Url.findOne({ where: { short_url } });
+   
+    if (!urlEntry) {
+        return res.status(404).send({ error: 'La URL corta no existe' });
+    }
+
+
+    const fullUrl =`http://localhost:5000/url/${short_url}`
+    urlEntry.qr_code = await QrCode.toDataURL(fullUrl)
+
+    await urlEntry.save();
+
+    return res.status(200).send({
+        message: 'Código QR generado correctamente',
+        qr_code: urlEntry.qr_code
+    });
+
+}catch(err){
+    console.error('error en /generarQr')
+    return res.status(500).send({error:'ha ocurrido un error interno en el servidor'})
+    
+}
+})
+
+
+
 // Ruta PUT /url/modificar/:short_url
 router.put('/modificar/:short_url', verifyToken, async (req, res) => { // Añade el middleware aquí
     const { short_url } = req.params;
-    const { new_short_url } = req.body;
+    const { new_short_url, generateQr } = req.body;
 
     if (!new_short_url || new_short_url.trim() === "") {
         return res.status(400).send({ error: 'Por favor ingrese una nueva URL corta' });
@@ -188,18 +217,19 @@ router.put('/modificar/:short_url', verifyToken, async (req, res) => { // Añade
         if (urlShortExist) {
             return res.status(400).send({ error: 'La nueva URL corta ya existe' });
         }
-
+        
         urlEntry.short_url = new_short_url;
         await urlEntry.save();
 
-        return res.status(200).send({ message: 'La URL corta fue modificada correctamente' });
+        return res.status(200).send({ message: 'La URL corta fue modificada correctamente', short_url: urlEntry.short_url,
+            qr_code: urlEntry.qr_code  });
     } catch (error) {
         console.error('Error en /modificar/:short_url:', error);
         return res.status(500).send({ error: 'Error interno en el servidor' });
     }
 });
 
-router.delete('/eliminar/:short_url',verifyToken, async (req,res)=>{
+router.delete('/eliminar/:short_url',verifyToken,subscriptionMiddleware('platino'), async (req,res)=>{
     const { short_url } = req.params
     const userId = req.user.id
     try{
