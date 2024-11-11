@@ -13,7 +13,7 @@ const subscriptionMiddleware = (requireType) => {
             return res.status(403).send({ error: 'Acceso Denegado: Se requiere una suscripción activa' });
         }
 
-        if (subscriptionType !== requireType) {
+        if (!requireType.includes(subscriptionType)) {
             return res.status(403).send({ error: 'Acceso Denegado: Tipo de suscripción insuficiente' });
         }
 

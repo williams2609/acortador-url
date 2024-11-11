@@ -9,7 +9,8 @@ const Sequelize = require('sequelize');
 const Click = require('../Modelos/clickModel');
 const subscriptionMiddleware = require('../Middleware/suscriptionMiddleware');
 const QrCode = require('qrcode')
-router.get('/urls-clicks', verifyToken, subscriptionMiddleware('diamante'),async (req, res) => {
+
+router.get('/urls-clicks', verifyToken, subscriptionMiddleware(['platino','diamante']),async (req, res) => {
     const userId = req.user.id; // Obtiene el ID del usuario desde el token
     const { view = 'total' } = req.query;
     
@@ -169,7 +170,7 @@ router.get('/:short_url',async (req, res) => {
     }
 });
 
-router.put('/generateQr/:short_url', verifyToken,subscriptionMiddleware('platino'), async(req,res)=>{
+router.put('/generateQr/:short_url', verifyToken,subscriptionMiddleware(['platino','diamante']), async(req,res)=>{
     const { short_url } = req.params;
 try{
     const urlEntry = await Url.findOne({ where: { short_url } });
@@ -229,7 +230,7 @@ router.put('/modificar/:short_url', verifyToken, async (req, res) => { // Añade
     }
 });
 
-router.delete('/eliminar/:short_url',verifyToken,subscriptionMiddleware('platino'), async (req,res)=>{
+router.delete('/eliminar/:short_url',verifyToken,subscriptionMiddleware(['platino','diamante']), async (req,res)=>{
     const { short_url } = req.params
     const userId = req.user.id
     try{

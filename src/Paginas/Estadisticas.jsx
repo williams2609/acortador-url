@@ -102,7 +102,7 @@ console.log('clicks urls',urlsClicks)
             </Col>
             <Col xs={12} md={4}>
               <h5>Clics Totales</h5>
-              <p>{urlsClicks.reduce((total, item) => total + item.total_clicks, 0)}</p>
+              <p>{urlsClicks.reduce((total, item) => total + Number(item.total_clicks),0)}</p>
             </Col>
             <Col xs={12} md={4}>
               <h5>Usuario Desde</h5>
