@@ -1,0 +1,36 @@
+.subscripcion {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .jumbotron {
+    background: linear-gradient(135deg, #e09, #d0e);
+    color: #fff;
+  }
+  
+  .card {
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-price {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  
+  .plan-actual {
+    color: #28a745;
+    font-weight: bold;
+  }
+  
+  .benefit i {
+    transition: color 0.3s ease;
+  }
+  
+  .benefit:hover i {
+    color: #007bff;
+  }

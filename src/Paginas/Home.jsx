@@ -6,16 +6,18 @@ import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
 import grafico from './imagenes/grafico.png'
 
-function Home() {
+// Imágenes de ejemplo
 
+
+function Home() {
     const [isPaid, setIsPaid] = useState(false)
     const [shortUrl, setShortUrl] = useState("")
     const [originalUrl, setOriginalUrl] = useState("")
     const [error, setError] = useState(false)
     const [expire, setExpire] = useState("")
-    const [ ModifyUrl,setModifiUrl ] = useState() 
+    const [ModifyUrl, setModifiUrl] = useState()
     
-console.log(error)
+    console.log(error)
     const handleInputUrl = async (e) => {
         e.preventDefault();
         setError('')
@@ -40,8 +42,8 @@ console.log(error)
                     Authorization: `Bearer ${token}`
                 }
             });
-           if(!shortUrl){
-            setShortUrl(`${response.data.short_url}`)
+            if(!shortUrl){
+                setShortUrl(`${response.data.short_url}`)
             }
 
             if (response.data.expiration_date) {
@@ -58,6 +60,7 @@ console.log(error)
 
     return (
         <div className='contenedor-home'>
+            {/* Hero Section */}
             <section className='hero'>
                 <div className='container text-center'>
                     <h1 className='display-4 mt-5'>Transforma Tus Enlaces con URLify</h1>
@@ -66,6 +69,7 @@ console.log(error)
                 </div>
             </section>
 
+            {/* Features Section */}
             <section className='features mt-5'>
                 <div className='container'>
                     <div className='row text-center'>
@@ -88,39 +92,37 @@ console.log(error)
                 </div>
             </section>
 
+            {/* URL Shortener Section */}
             <section className='shorten-url text-center'>
                 <h2>Acorta tu URL en segundos</h2>
-          
                 <form onSubmit={handleInputUrl} className="form-url d-flex flex-column align-items-center">
-    <div className="d-flex flex-column align-items-start" style={{ width: '100%', maxWidth: '700px' }}>
-        {/* Contenedor del primer input y el botón */}
-        <div className="d-flex w-100 align-items-center mb-3">
-            <input
-                type="text"
-                name="originalUrl"
-                value={originalUrl}
-                placeholder="Ingrese una URL larga"
-                onChange={(e) => setOriginalUrl(e.target.value)}
-                required
-                className="input-url"
-                style={{ flex: 1, marginRight: '10px' }} // Espacio entre el input y el botón
-            />
-            <button className="btn btn-primary btn-short" style={{ width: '130px' }}>
-                Acortar URL
-            </button>
-        </div>
+                    <div className="d-flex flex-column align-items-start" style={{ width: '100%', maxWidth: '700px' }}>
+                        <div className="d-flex w-100 align-items-center mb-3">
+                            <input
+                                type="text"
+                                name="originalUrl"
+                                value={originalUrl}
+                                placeholder="Ingrese una URL larga"
+                                onChange={(e) => setOriginalUrl(e.target.value)}
+                                required
+                                className="input-url"
+                                style={{ flex: 1, marginRight: '10px' }}
+                            />
+                            <button className="btn btn-primary btn-short" style={{ width: '130px' }}>
+                                Acortar URL
+                            </button>
+                        </div>
 
-        {/* Segundo input centrado debajo */}
-        <input
-            type="text"
-            name="short_url"
-            className="input-url"
-            placeholder="URL Personalizada"
-            style={{ width: '80%' }} // Asegura que el segundo input ocupe todo el ancho
-           onChange={(e)=>setModifiUrl(e.target.value)}
-        />
-    </div> 
-</form>
+                        <input
+                            type="text"
+                            name="short_url"
+                            className="input-url"
+                            placeholder="URL Personalizada"
+                            style={{ width: '80%' }}
+                            onChange={(e) => setModifiUrl(e.target.value)}
+                        />
+                    </div> 
+                </form>
                 {shortUrl && (
                     <div className='result mt-3'>
                         <label>URL Acortada</label>
@@ -131,14 +133,13 @@ console.log(error)
                     </div>
                 )}
                 {error && (
-    <Alert variant='danger' className='mt-3'>
-        {error !== 'Token no válido' 
-            ? error || "Ocurrió un error" // Muestra el mensaje de error si está disponible
-            : "Necesitas Crear Una Cuenta"}
-    </Alert>
-)}
+                    <Alert variant='danger' className='mt-3'>
+                        {error !== 'Token no válido' ? error || "Ocurrió un error" : "Necesitas Crear Una Cuenta"}
+                    </Alert>
+                )}
             </section>
 
+            {/* Monitor Section */}
             <section className='monitor'>
                 <div className='container d-flex'>
                     <div className='description'>
@@ -151,6 +152,30 @@ console.log(error)
                 </div>
             </section>
 
+            {/* Tutorial Section */}
+            <section className='tutorial-section text-center mt-5'>
+                <h3>Cómo Modificar una URL y Generar un Código QR</h3>
+                <div className="instruction">
+                    <div className="instruction-text">
+                        <h4>1. Modificar una URL</h4>
+                        <p>Para modificar una URL,Ve a la Seccion de Perfil, haz clic en el icono de edición junto a la URL que deseas cambiar. Luego, escribe la nueva URL corta y presiona "Guardar".</p>
+                    </div>
+                    <div className="instruction-image">
+                        <img  alt="Ejemplo de cómo modificar una URL" className="img-fluid rounded-3 shadow" />
+                    </div>
+                </div>
+                <div className="instruction">
+                    <div className="instruction-text">
+                        <h4>2. Generar un Código QR</h4>
+                        <p>Para crear un código QR de tu URL, selecciona la opción "Generar QR" junto a la URL que has acortado. Si tienes una suscripción válida, el código QR aparecerá junto a la URL en tu lista.</p>
+                    </div>
+                    <div className="instruction-image">
+                        <img  alt="Ejemplo de cómo generar un código QR" className="img-fluid rounded-3 shadow" />
+                    </div>
+                </div>
+            </section>
+
+            {/* Testimonials Section */}
             <section className='testimonials text-center mt-5'>
                 <h4>Testimonios de Nuestros Usuarios</h4>
                 <blockquote className='blockquote'>
