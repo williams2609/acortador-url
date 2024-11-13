@@ -59,7 +59,7 @@ router.get('/user-urls', verifyToken, async (req, res) => {
 
 // Ruta POST /url/acortar
 router.post('/acortar', verifyToken, async (req, res) => {
-    const { original_url, is_paid_user = false } = req.body; // Desestructuración
+    const { original_url, is_paid_user } = req.body; // Desestructuración
     const userId = req.user.id; // Obtiene el ID del usuario
     let { short_url } = req.body
     const { subscriptionType } = req.user

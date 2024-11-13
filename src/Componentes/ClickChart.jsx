@@ -1,26 +1,91 @@
 import React, { useMemo } from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 
-function ClickChart({ urls, viewOption }) {
+function ClickChart({ urls = [], viewOption, url }) {
   const chartData = useMemo(() => {
-    // Configuración de etiquetas y datos en función de la vista seleccionada
-    let labels;
-    let data;
+    let labels = [];
+    let data = [];
 
     if (viewOption === 'total') {
-      // Vista Total: Mostrar clics totales por cada URL acortada
-      labels = urls.map((url) => url.short_url || 'Sin datos');
-      data = urls.map((url) => url.total_clicks || 0);
-    } else if (viewOption === 'day') {
-      // Vista Diaria: Mostrar clics diarios por fecha
-      labels = urls.map((url) => url.date || 'Sin datos');
-      data = urls.map((url) => url.clicks || 0);
+      // Genera etiquetas de mes desde la fecha de creación hasta completar un año
+      const creationDate = new Date(url?.createdAt || new Date());
+      const months = {};
+    
+      // Genera hasta 12 meses consecutivos desde la fecha de creación
+      for (let i = 0; i < 12; i++) {
+        const monthDate = new Date(creationDate);
+        monthDate.setMonth(creationDate.getMonth() + i); // Incrementa el mes desde la fecha de creación
+    
+        const monthStr = `${monthDate.getFullYear()}-${String(monthDate.getMonth() + 1).padStart(2, '0')}`;
+        months[monthStr] = 0; // Inicializa en 0 clics por defecto
+      }
+    
+      // Combina los datos de clics con los meses generados
+      urls.forEach((item) => {
+        if (item.click_time) {
+          const monthStr = item.click_time.slice(0, 7); // Formato 'YYYY-MM'
+          if (months[monthStr] !== undefined) {
+            months[monthStr] += item.clicks || 0;
+          }
+        }
+      });
+    
+      labels = Object.keys(months);
+      data = Object.values(months);
+    }  else if (viewOption === 'day') {
+      // Genera todas las fechas del último mes
+      const today = new Date();
+      const lastMonth = new Date(today);
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+      const daysInMonth = {};
+      for (let d = new Date(lastMonth); d <= today; d.setDate(d.getDate() + 1)) {
+        const dateStr = d.toISOString().split('T')[0]; // Formato 'YYYY-MM-DD'
+        daysInMonth[dateStr] = 0; // Asigna 0 clics por defecto
+      }
+
+      // Combina los datos recibidos con las fechas generadas
+      urls.forEach((item) => {
+        if (item.date) {
+          daysInMonth[item.date] = item.clicks || 0;
+        }
+      });
+
+      labels = Object.keys(daysInMonth);
+      data = Object.values(daysInMonth);
+
     } else if (viewOption === 'hour') {
-      // Vista por Hora: Mostrar clics por hora específica
-      labels = urls.map((url) => url.hour || 'Sin datos');
-      data = urls.map((url) => url.clicks || 0);
-    } else {
-      // Caso por defecto si la vista no es reconocida
+      const currentHour = new Date();
+      const last24Hours = new Date(currentHour);
+      last24Hours.setHours(last24Hours.getHours() - 23);
+  
+      const hoursInDay = {};
+
+      for (let h = new Date(last24Hours); h <= currentHour; h.setHours(h.getHours() + 1)) {
+          const hourStr = h.toISOString().slice(0, 13) + ':00:00';
+          hoursInDay[hourStr] = 0; // Inicializa en 0 por defecto
+          
+      }
+      
+      // Verificación adicional
+  
+      urls.forEach((item) => {
+          if (item.hour) {
+            const itemHourFormatted = new Date(item.hour).toISOString().slice(0, 14) + '00:00';
+              const hourStr = item.hour;
+              
+              if (hoursInDay[itemHourFormatted] !== undefined) {
+                  hoursInDay[hourStr] = item.clicks;
+                  
+              }
+          }
+      });
+  
+      labels = Object.keys(hoursInDay);
+      data = Object.values(hoursInDay);
+  
+      // Verificación final
+  }else {
       labels = ['Sin datos'];
       data = [0];
     }
@@ -29,17 +94,20 @@ function ClickChart({ urls, viewOption }) {
       labels,
       datasets: [
         {
-          label: 'Clics en URLs Acortadas',
+          label:
+            viewOption === 'total'
+              ? 'Total de Clics por Mes desde Creación'
+              : 'Clics en URLs Acortadas',
           data,
           backgroundColor: 'rgba(54, 162, 235, 0.6)',
           borderColor: 'rgba(54, 162, 235, 1)',
           borderWidth: 1,
-          fill: false, // Desactiva el relleno bajo la línea en el gráfico lineal
-          tension: 0.6, // Suaviza la línea en el gráfico lineal
+          fill: false,
+          tension: 0.4,
         },
       ],
     };
-  }, [urls, viewOption]);
+  }, [urls, viewOption, url]);
 
   const options = {
     responsive: true,
@@ -54,25 +122,16 @@ function ClickChart({ urls, viewOption }) {
       x: {
         title: {
           display: true,
-          text: viewOption === 'total' ? 'URL Acortada' : viewOption === 'day' ? 'Fecha' : 'Hora',
-        },
-      },
-    },
-    plugins: {
-      tooltip: {
-        callbacks: {
-          label: (tooltipItem) => `Clics: ${tooltipItem.parsed.y}`,
+          text: viewOption === 'day' ? 'Fecha' : viewOption === 'hour' ? 'Hora' : 'Mes',
         },
       },
     },
   };
 
-  // Renderizar el componente adecuado según `viewOption`
-  return viewOption === 'total' ? (
-    <Bar data={chartData} options={options} />
-  ) : (
-    <Line data={chartData} options={options} />
-  );
+  
+  return viewOption === 'total'?( 
+  <Bar data={chartData} options={options} />):(<Line data={chartData} options={options} />);
+
 }
 
 export default ClickChart;

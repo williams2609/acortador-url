@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Estilos/home.css'
 import axios from 'axios'
 import logo from './imagenes/graf-removebg-preview.png'
 import Alert from 'react-bootstrap/Alert';
 import { Link } from 'react-router-dom';
 import grafico from './imagenes/grafico.png'
+import ejemp1 from './imagenes/Captura de pantalla 2024-11-12 104129.png'
+import ejemp2 from './imagenes/Captura de pantalla 2024-11-12 104141.png'
 
 // Imágenes de ejemplo
 
@@ -16,15 +18,34 @@ function Home() {
     const [error, setError] = useState(false)
     const [expire, setExpire] = useState("")
     const [ModifyUrl, setModifiUrl] = useState()
+    const [userData, setUserData] = useState('')
     
-    console.log(error)
+		const token = localStorage.getItem('token')
+
+    const fetchUser = async ()=>{
+			try{
+					const userResponse = await axios.get('http://localhost:5000/users/me', {
+							headers: {
+									Authorization: `Bearer ${token}`
+							}
+					})
+	setUserData(userResponse.data)
+	setIsPaid(userData.is_paid_user)
+			}catch(err){
+				setError(err)
+				console.error('error Al intentar acceder a los datos del usuario',err)
+			}
+		}
+		useEffect(()=>{
+			fetchUser()
+		},[])
+
     const handleInputUrl = async (e) => {
         e.preventDefault();
         setError('')
         setShortUrl('');
         setExpire('')
 
-        const token = localStorage.getItem('token')
 
         let formatedUrl = originalUrl.trim();
 
@@ -33,6 +54,14 @@ function Home() {
         }
 
         try {
+            const userResponse = await axios.get('http://localhost:5000/users/me', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+    setUserData(userResponse.data)
+    setIsPaid(userData.is_paid_user)
+
             const response = await axios.post("http://localhost:5000/acortar", {
                 original_url: formatedUrl,
                 is_paid_user: isPaid,
@@ -57,7 +86,8 @@ function Home() {
             setError(error.response ? error.response.data.error : "Error Al Acortar El Url")
         }
     };
-
+		console.log('paga?',isPaid)
+		console.log(userData)
     return (
         <div className='contenedor-home'>
             {/* Hero Section */}
@@ -127,9 +157,10 @@ function Home() {
                     <div className='result mt-3'>
                         <label>URL Acortada</label>
                         <a href={`http://localhost:5000/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
-                            <p className='short-url' style={{color:'blue'}}>{`http://localhost:5000/url/${shortUrl}`}</p>
+                            <p className='short-url' style={{color:'blue'}}>{`http://localhost:5000/${shortUrl}`}</p>
                         </a>
-                        <p>Fecha de expiración: {expire}</p>
+												{isPaid ? <p>Sin Fecha De Expiración</p> : <p>Fecha de expiración: {expire}</p>}
+                        
                     </div>
                 )}
                 {error && (
@@ -161,7 +192,7 @@ function Home() {
                         <p>Para modificar una URL,Ve a la Seccion de Perfil, haz clic en el icono de edición junto a la URL que deseas cambiar. Luego, escribe la nueva URL corta y presiona "Guardar".</p>
                     </div>
                     <div className="instruction-image">
-                        <img  alt="Ejemplo de cómo modificar una URL" className="img-fluid rounded-3 shadow" />
+                        <img src={ejemp2} alt="Ejemplo de cómo modificar una URL" className="img-fluid rounded-3 shadow" />
                     </div>
                 </div>
                 <div className="instruction">
@@ -170,7 +201,7 @@ function Home() {
                         <p>Para crear un código QR de tu URL, selecciona la opción "Generar QR" junto a la URL que has acortado. Si tienes una suscripción válida, el código QR aparecerá junto a la URL en tu lista.</p>
                     </div>
                     <div className="instruction-image">
-                        <img  alt="Ejemplo de cómo generar un código QR" className="img-fluid rounded-3 shadow" />
+                        <img src={ejemp1} alt="Ejemplo de cómo generar un código QR" className="img-fluid rounded-3 shadow" />
                     </div>
                 </div>
             </section>
