@@ -69,8 +69,8 @@ const GenerateApiKey = () => {
   }, []);
 
   return (
-    <div className="container my-5">
-      <h1 className="text-center mb-4">Gestión de API Keys</h1>
+    <div className="container my-5" >
+      <h1 className="text-center mb-4" style={{marginTop:'150px'}}>Gestión de API Keys</h1>
       <p className="text-center">
         Aquí puedes ver, generar o eliminar tus API Keys. Asegúrate de mantenerlas seguras y no compartirlas con terceros.
       </p>

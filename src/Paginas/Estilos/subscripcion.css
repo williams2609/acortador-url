@@ -1,5 +1,6 @@
 .subscripcion {
     font-family: 'Roboto', sans-serif;
+    
   }
   
   .jumbotron {
@@ -33,4 +34,6 @@
   
   .benefit:hover i {
     color: #007bff;
+  }.jumbotron .h1{
+    color: black;
   }

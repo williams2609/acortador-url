@@ -48,9 +48,9 @@ function Subscripcion() {
   return (
     <div className="subscripcion">
       {/* Encabezado */}
-      <div className="jumbotron text-center text-white py-5 bg-gradient">
-        <h1 className="display-4">Elige el Plan de Suscripción Perfecto para Ti</h1>
-        <p className="lead">Descubre todas las ventajas que ofrecemos con nuestros planes.</p>
+      <div className="jumbotron text-center text-white py-5 bg-gradient" style={{marginTop:'100px'}}>
+        <h1 className="display-4" style={{color:'black'}}>Elige el Plan de Suscripción Perfecto para Ti</h1>
+        <p className="lead" style={{color:'black'}}>Descubre todas las ventajas que ofrecemos con nuestros planes.</p>
       </div>
 
       {/* Opciones de Planes */}
