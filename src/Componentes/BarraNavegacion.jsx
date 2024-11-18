@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import './Estilos/Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from './AuthProvider';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
  // Asegúrate de importar el contexto
 
 function BarraNavegacion() {
   const  [isOpen,setIsOpen]  = useState(false)
+  const  [isLogged,setIsLogged] = useState(false)
   
-  const { isLogged } = useAuth(); // Obtener el estado de autenticación desde el contexto
+  const token = localStorage.getItem('token')
+
+   // Obtener el estado de autenticación desde el contexto
   console.log(isLogged)
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!isLogged) {
-      // Si el usuario no está autenticado, redirigir a la página de inicio de sesión
-      navigate('/login');
-    }
-  }, [isLogged]);
+   if(token !== null){
+    return setIsLogged(true)
+   }else{setIsLogged(false)}
+  }, [token]);
   
   const handleOpen =()=> setIsOpen(!isOpen)
   return (
@@ -31,17 +34,38 @@ function BarraNavegacion() {
               <div className='bar middle'></div>
               <div className='bar bottom'></div>
             </div>
-        <div className={`nav-links col-md-6 col-12 ${isOpen ? 'show': ''}`}>
+        <div className={`nav-links col-md-8 col-12 text-center justify-content-between ${isOpen ? 'show': ''}`}>
+          <div className='text-center d-flex' style={{flexDirection:'row'}}>
+          
           <Link to={isLogged? '/estadisticas': '/login'} className='nav-item'>Estadisticas</Link>
-          <Link to="/graficos" className='nav-item'>Recursos</Link>
+          <li className="nav-item dropdown">
+                            <a className="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Recursos
+                            </a>
+                            <ul className="dropdown-menu" aria-labelledby="resourcesDropdown">
+                                <li>
+                                    <Link className="dropdown-item" to="/resources/api-key">Documentacion Api</Link>
+                                </li>
+                                <li>
+                                    <Link className="dropdown-item" to="/resources/generate-api-key">Generar API Key</Link>
+                                </li>
+                                </ul>
+                                </li>
           <Link to="/Subscripción" className='nav-item'>Planes</Link>
+          </div>
+         <div className='text-center align-items-center justify-content-center nav item'>
           {!isLogged ? (
-            <Link to="/login" className='nav-item'>Login</Link>
+              <>
+            <Link to="/login" className='nav-item'>Acceso </Link>
+            <Link to="/register" className='nav-item border p-2 rounded-4'>Empezar Gratis</Link>
+            </>
           ) : (
-            <Link to="/perfil" className='nav-item'>Perfil</Link>
+            <Link to="/perfil" className='nav-item'><i className="bi bi-person-circle"></i> Perfil</Link>
           )}
             </div>
-            
+            </div>
+          
+                
       </div>
     </nav>
   );

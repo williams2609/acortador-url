@@ -1,0 +1,14 @@
+.table-responsive {
+    overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+    -webkit-overflow-scrolling: touch; /* Mejora la experiencia de desplazamiento en dispositivos móviles */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  }
+  .table {
+    width: 100%; /* La tabla ocupa todo el ancho del contenedor */
+    max-width: 100%; /* Evita que la tabla exceda el contenedor */
+    border-collapse: collapse; /* Colapsa los bordes de las celdas */
+  }
+  td, th {
+    word-wrap: break-word; /* Ajusta las palabras largas para que no rompan el diseño */
+    white-space: normal; /* Permite el ajuste de texto en varias líneas */
+  }

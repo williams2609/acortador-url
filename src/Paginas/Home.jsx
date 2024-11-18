@@ -3,7 +3,7 @@ import './Estilos/home.css'
 import axios from 'axios'
 import logo from './imagenes/graf-removebg-preview.png'
 import Alert from 'react-bootstrap/Alert';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import grafico from './imagenes/grafico.png'
 import ejemp1 from './imagenes/Captura de pantalla 2024-11-12 104129.png'
 import ejemp2 from './imagenes/Captura de pantalla 2024-11-12 104141.png'
@@ -19,8 +19,18 @@ function Home() {
     const [expire, setExpire] = useState("")
     const [ModifyUrl, setModifiUrl] = useState()
     const [userData, setUserData] = useState('')
-    
-		const token = localStorage.getItem('token')
+    const [ isLogged,setIsLogged ] = useState(false)
+    const navigate = useNavigate()
+    const token = localStorage.getItem('token')
+    console.log(token)
+
+    const confirmToken = () => {
+       if(isLogged !== null){
+        return setIsLogged(true)
+       }
+    }
+		
+
 
     const fetchUser = async ()=>{
 			try{
@@ -32,13 +42,25 @@ function Home() {
 	setUserData(userResponse.data)
 	setIsPaid(userData.is_paid_user)
 			}catch(err){
-				setError(err)
+				setError(err.response.data.error)
 				console.error('error Al intentar acceder a los datos del usuario',err)
 			}
 		}
-		useEffect(()=>{
-			fetchUser()
+		
+        useEffect(()=>{
+            confirmToken();
+            if (isLogged){
+                fetchUser()
+            }
 		},[])
+useEffect(()=>{
+    if(error === 'Token invalido'){
+        const timeout = setTimeout(()=>{
+            navigate('/register')
+        },3000)
+        return () => clearTimeout(timeout)
+    }
+},[error,navigate])
 
     const handleInputUrl = async (e) => {
         e.preventDefault();
@@ -64,8 +86,8 @@ function Home() {
 
             const response = await axios.post("http://localhost:5000/acortar", {
                 original_url: formatedUrl,
-                is_paid_user: isPaid,
-                short_url: ModifyUrl
+                short_url: ModifyUrl,
+                requestType: 'shorten'
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -123,7 +145,7 @@ function Home() {
             </section>
 
             {/* URL Shortener Section */}
-            <section className='shorten-url text-center'>
+            <section className='shorten-url text-center mb-5 mt-5'>
                 <h2>Acorta tu URL en segundos</h2>
                 <form onSubmit={handleInputUrl} className="form-url d-flex flex-column align-items-center">
                     <div className="d-flex flex-column align-items-start" style={{ width: '100%', maxWidth: '700px' }}>
@@ -147,10 +169,11 @@ function Home() {
                             type="text"
                             name="short_url"
                             className="input-url"
-                            placeholder="URL Personalizada"
+                            placeholder="URL Personalizada (OPCIONAL)"
                             style={{ width: '80%' }}
                             onChange={(e) => setModifiUrl(e.target.value)}
                         />
+                        
                     </div> 
                 </form>
                 {shortUrl && (
@@ -165,7 +188,7 @@ function Home() {
                 )}
                 {error && (
                     <Alert variant='danger' className='mt-3'>
-                        {error !== 'Token no válido' ? error || "Ocurrió un error" : "Necesitas Crear Una Cuenta"}
+                        {error !== 'Token invalido' ? error || "Ocurrió un error" : "Necesitas Crear Una Cuenta"}
                     </Alert>
                 )}
             </section>

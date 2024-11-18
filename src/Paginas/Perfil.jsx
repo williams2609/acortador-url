@@ -21,15 +21,17 @@ function Perfil() {
   const [loading, setLoading] = useState(true);
   const [ qrCode,setQrCode ] = useState(false);
   const [ qrData, setQrData ] = useState({});
-
+ const [responseApiKey, setResponseApiKey] = useState('')
   // Función para manejar la eliminación de URL
   
+  const token = localStorage.getItem('token')
   
   const fetchData = async () => {
-    const token = localStorage.getItem('token');
+   
     if (token) {
       setLoading(true);
       setError(null); // Limpiar el error anterior en una nueva búsqueda
+    
       try {
         const [userResponse, urlsResponse] = await Promise.all([
           axios.get('http://localhost:5000/users/me', {
@@ -56,7 +58,6 @@ function Perfil() {
     }
   };
   const handleGenerateQr= async (urlId, shortUrl)=> {
-    const token = localStorage.getItem('token')
     try{
       const qrModifyResponse = await axios.put(`http://localhost:5000/generateQr/${shortUrl}`,{},{
         headers: {Authorization:`Bearer ${token}` },
@@ -76,10 +77,30 @@ function Perfil() {
     }
   }
    }
+
+   const handleGenerateApiKey = async ()=>{
+    try{
+      const response = await axios.post('http://localhost:5000/generate-api-key',{},{
+        headers:{Authorization:`Bearer ${token}`}
+      })
+      setResponseApiKey(response.data.api_token);
+      setUserData((prevData)=>({
+        ...prevData,
+        api_token: response.data.api_token
+      }));
+    } catch (err) {
+      // Manejo de errores
+      console.error('Error al intentar generar la API Key:', err);
+      const errorMsg =
+        err.response?.data?.error || 'Error al generar la API Key. Intenta nuevamente.';
+      setError(errorMsg);
+    }
+   }
   // Función para recuperar datos de usuario y URLs
   useEffect(() => {
     fetchData();
   }, [navigate,qrData]);
+  console.log(userData)
   
   const handleDelete = async (shortUrl) => {
     const token = localStorage.getItem('token');
@@ -245,7 +266,7 @@ function Perfil() {
           {userData && <h2 className="welcome-msg">Bienvenido, {userData.username}</h2>}
         </header>
 
-        <section className="urls-list">
+        <section className="urls-list flex-wrap">
           <h3>Mis URLs Acortadas</h3>
           <ul>
             {urls.map((url) => (
@@ -331,7 +352,18 @@ function Perfil() {
           <h3>Estadísticas de URLs Acortadas</h3>
           <Line data={chartData} options={options} />
         </section>
+        <section className='generate-api-key p-4'>
+         <div className='d-flex p-5'>
+           <div className="api-key-wrapper col-12 col-md-6 ">
+              <strong className="mb-5">apiKey</strong>
+              <pre className="api-key-block">
+                <code>{responseApiKey || userData.api_token}</code>
+              </pre>
+            </div>
+         </div>
+        </section>
       </div>
+      
     </div>
   );
 }

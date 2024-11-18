@@ -65,6 +65,7 @@ try{
         username: user.username,
         subscriptionType: user.subscriptionType,
         is_paid_user: user.is_paid_user
+
     },process.env.JWT_SECRET,
     {expiresIn: '5h'})
     return res.status(200).send({message: '!Inicio de Sesion Exitoso¡',token})
@@ -77,7 +78,7 @@ router.get('/me',authMiddleware,async (req,res)=>{
 
     try{
         const user = await User.findByPk(req.user.id ,{
-            attributes:['id','username','email','phone_number','createdAt','is_paid_user','subscriptionType']
+            attributes:{exclude:['password']}
         })
         if(!user){
             return res.status(404).send({error:'Usuario no encontrado'})

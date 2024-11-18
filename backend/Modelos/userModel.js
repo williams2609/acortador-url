@@ -28,6 +28,11 @@ const User = sequelize.define('User',{
         type:DataTypes.ENUM('basic','platino','diamante'),
         allowNull:true,
         defaultValue:"basic",
+    },
+    api_token:{
+        type:DataTypes.STRING,
+        unique:true,
+        allowNull:true
     }
     },{
         tableName:"users"

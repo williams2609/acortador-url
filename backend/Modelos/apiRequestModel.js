@@ -1,13 +1,13 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../db')
-
+const users = require('./userModel')
 const apiRequest = sequelize.define('apiRequest',{
     user_id:{
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         references:{
-            model:users,
-            key:id
+            model:'users',
+            key:'id'
         },
         onDelete: 'CASCADE'
     },
@@ -28,7 +28,7 @@ const apiRequest = sequelize.define('apiRequest',{
     sequelize,
     modelName: 'apiRequests',
     tableName: 'api_request',
-    timestamps: false
+    timestamps: true
  }
 );
 module.exports = apiRequest

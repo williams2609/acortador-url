@@ -8,6 +8,8 @@ import Login from './Paginas/Login';
 import Register from './Paginas/Register';
 import Perfil from './Paginas/Perfil';
 import Estadisticas from './Paginas/Estadisticas';
+import ApiUse from './Paginas/ApiUse';
+import GenerateApiKey from './Paginas/GenerateApiKey';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route path='/register' element={<Register/>}/>
           <Route path='/perfil' element={<Perfil/>}/>
           <Route path='/estadisticas' element={<Estadisticas/>}/>
+          <Route path='/resources/api-key' element={<ApiUse/>}/>
+          <Route path='/resources/generate-api-key' element={<GenerateApiKey/>}/>
         </Routes>
      </Router>
     </div>

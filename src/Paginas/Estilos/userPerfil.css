@@ -198,4 +198,8 @@
   outline: none; /* Elimina el contorno predeterminado al hacer foco */
   background-color: rgba(0, 123, 255, 0.1); /* Color de fondo al enfocar */
   border-color: #0056b3; /* Cambia el color del borde al enfocar */
-}
+}.api-key-block{
+  background-color: gainsboro;
+  border-radius: 10px;
+  padding: 8px;
+  width:70vw;}

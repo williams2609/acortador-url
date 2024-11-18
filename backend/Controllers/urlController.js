@@ -14,6 +14,7 @@ router.get('/urls-clicks', verifyToken, subscriptionMiddleware(['platino','diama
     const userId = req.user.id; // Obtiene el ID del usuario desde el token
     const { view = 'total' } = req.query;
     
+    
     try {
         let urls;
         
@@ -59,18 +60,30 @@ router.get('/user-urls', verifyToken, async (req, res) => {
 
 // Ruta POST /url/acortar
 router.post('/acortar', verifyToken, async (req, res) => {
-    const { original_url, is_paid_user } = req.body; // Desestructuración
+    const { original_url} = req.body; // Desestructuración
+    const is_paid_user = req.user.is_paid_user
     const userId = req.user.id; // Obtiene el ID del usuario
     let { short_url } = req.body
     const { subscriptionType } = req.user
+    const requestType = req.userType === 'developer' ? 'dev' : 'shorten'
 
     const urlLimits= {
+     shorten: {
      basic: 10,
      platino: 100,
      diamante: Infinity
+     },
+     dev:{
+        basic: 100,
+        platino: 300,
+        diamante: 1000
+     }
+    }
+    if (!requestType || !urlLimits[requestType]) {
+        return res.status(400).send({ error: 'Tipo de solicitud no válido. Use "shorten" o "dev".' });
     }
 
-    const userLimit = urlLimits[subscriptionType] || 10;
+    const userLimit = urlLimits[requestType][subscriptionType] || 10;
 
     const urlCounts = await Url.count({ where:{userId} })
     if(urlCounts >= userLimit){
@@ -192,7 +205,7 @@ try{
 
 }catch(err){
     console.error('error en /generarQr')
-    return res.status(500).send({error:'ha ocurrido un error interno en el servidor'})
+    return res.status(500).send({error:'Error interno del servidor'})
     
 }
 })
