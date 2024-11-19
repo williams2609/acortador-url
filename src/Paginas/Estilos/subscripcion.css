@@ -36,4 +36,83 @@
     color: #007bff;
   }.jumbotron .h1{
     color: black;
+  }.plan-card{
+    display: none;
   }
+  @media (max-width: 1050px){
+    .plan-card{
+      display: flex;
+    }
+    .custom-table{
+      display: none;
+    }
+  }
+  .custom-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Espaciado vertical entre filas */
+
+  }
+  
+  .custom-table th, .custom-table td {
+    padding: 15px;
+    background-color: #f9f9f9; /* Fondo de celdas */
+  
+  }
+  
+  .custom-table thead th {
+    background-color: #701edc;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .custom-table tbody tr {
+    border-bottom: 1px solid #ddd; /* Borde entre filas */
+  }
+  
+  .custom-table tbody tr:last-child {
+    border-bottom: none; /* Elimina el borde en la última fila */
+  }
+  
+  .custom-table tfoot td {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    border-top: 2px solid #ddd;
+    text-align: center;
+  }
+  .btn-table{
+    max-width:150px;
+  }
+  .linea-1 {
+    background-color: transparent; /* Elimina el fondo */
+    border: none; /* Elimina cualquier borde */
+  }
+  
+  .linea-1 td {
+    padding: 10px; /* Opcional: ajusta el espaciado interno */
+    border: none; /* Asegúrate de eliminar bordes de las celdas */
+    font-size: 1.8rem;
+    background-color: transparent;
+  }.fila-1{
+    font-size: 1.8rem;
+    font-family: cursive;
+  }
+.negrita{
+  font-family: cursive;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.custom-table td:not(:first-child){
+  color: #5b5d5b;
+  font-family: sans;
+}
+.custom-table tr:first-child{
+  color: black;
+}.custom-table td:first-child{
+  font-size: 0.8rem;
+  padding-left: 30px;
+}.caracteristicas{
+  margin-top: 20px;
+}.caracteristicas td {
+  padding-top: 45px; /* Espaciado superior */
+}

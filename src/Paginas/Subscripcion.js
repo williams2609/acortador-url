@@ -143,6 +143,116 @@ function Subscripcion() {
           </div>
         </div>
       </div>
+      <table class="custom-table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Básico</th>
+      <th>Platino</th>
+      <th>Diamante</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+      <td className='fila-1 negrita'>Plan Mensual</td>
+      <td style={{color:'black'}}><strong style={{fontSize:'2.2rem'}}>$0</strong> / mes</td>
+      <td style={{color:'black'}}><strong style={{fontSize:'2.2rem'}}>$2,99</strong> / mes</td>
+      <td style={{color:'black'}}><strong style={{fontSize:'2.2rem'}}>$5,99</strong> / mes</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td>{!token && (
+                  <button
+                    className="btn btn-outline-primary btn-block rounded-5 btn-table"
+                    onClick={() => navigate('/register')}
+                  >
+                    Registrarse
+                  </button>
+                )}</td>
+      <td>{membershipType === 'basic' ? (
+                  <PayPalComponent membershipType="platino" onUpgrade={handleUpgrade} />
+                ) : membershipType === 'platino' ? (
+                  <h4 className="text-success">Plan Actual</h4>
+                ) : membershipType === '' && (
+                  <button
+                    className="btn btn-outline-primary btn-block rounded-5 btn-table"
+                    onClick={() => navigate('/register')}
+                  >
+                    Registrarse
+                  </button>
+                )}</td>
+      <td>{membershipType === 'basic' || membershipType === 'platino' ? (
+                  <PayPalComponent membershipType="diamante" onUpgrade={handleUpgrade} />
+                ) : membershipType === 'diamante' ? (
+                  <h4 className="text-success">Plan Actual</h4>
+                ) : (
+                  <button
+                    className="btn btn-outline-primary btn-block rounded-5 btn-table"
+                    onClick={() => navigate('/register')}
+                  >
+                    Registrarse
+                  </button>
+                )}</td>
+    </tr>
+    <tr>
+      <td className='fila-1 negrita'><trong>Recomendado Para</trong></td>
+      <td>Principiantes</td>
+      <td>Trabajadores autónomos</td>
+      <td>Pequeñas Empresas</td>
+    </tr>
+    <tr className='linea-1 caracteristicas'>
+      <td className='negrita' style={{fontSize:'1rem'}}>Caracteristicas</td>
+    </tr>
+    <tr>
+      <td>Enlaces Acortados /mes</td>
+      <td>10</td>
+      <td>50</td>
+      <td>1000</td>
+    </tr>
+    <tr>
+      <td>Enlaces Personalizados /mes</td>
+      <td>1</td>
+      <td>10</td>
+      <td><i className="bi bi-check-lg"></i></td>
+    </tr>
+    <tr>
+      <td>Enlaces Modificados /mes</td>
+      <td>Sin Acceso</td>
+      <td>5</td>
+      <td><i className="bi bi-check-lg"></i></td>
+    </tr>
+    <tr>
+      <td>Codigos Qr</td>
+      <td>2 (Con Marca)</td>
+      <td>5</td>
+      <td>50</td>
+    </tr>
+    <tr>
+      <td>Desechar Enlaces sin uso</td>
+      <td><i className="bi bi-x-lg"></i></td>
+      <td>Ilimitado</td>
+      <td><i className="bi bi-check-lg"></i></td>
+    </tr>
+    <tr>
+      <td>Visualización de Graficos</td>
+      <td>Basico</td>
+      <td><i className="bi bi-check-lg"></i></td>
+      <td><i className="bi bi-check-lg"></i></td>
+    </tr>
+    <tr>
+      <td>Acceso a Api para Developers</td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>Soporte</td>
+      <td>Ilimitado(Correo)</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
 
       {/* Beneficios */}
       <div className="container mt-5">
@@ -172,6 +282,7 @@ function Subscripcion() {
         <p>Elige el plan que mejor se ajuste a tus necesidades.</p>
         <button className="btn btn-lg btn-primary mt-3">Suscribirse Ahora</button>
       </div>
+      
     </div>
   );
 }
