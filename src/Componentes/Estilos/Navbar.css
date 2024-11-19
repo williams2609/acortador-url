@@ -40,7 +40,8 @@
 }
 .nav-links{
     text-align: center;
-    
+    color: rgb(215, 209, 209);
+    font-weight: bold;
 }
 @media (min-width: 770px ){
     .hamburguer-button{
@@ -81,5 +82,24 @@
   /* Cuando el dropdown está abierto */
   .navbar .dropdown.show .dropdown-toggle::after {
     transform: rotate(0deg);
+  }.empezar-gratis{
+    border: 2px solid blueviolet;
+    text-decoration: none;
+    color: rgb(62, 61, 61);
+    margin:5px;
+    font-weight: normal;
+  }.nav-link:hover{
+    color: blue;
+  }
+  .nav-item:hover{
+    color: rgb(6, 98, 246);
+    transition: 0.1s ease-in;
+  }
+  .empezar-gratis:hover{
+    background: linear-gradient(to right bottom,rgb(212, 0, 255),rgb(80, 10, 220));
+    color: white;
+    transition: 0.2s ease-in;
+    transform: scale(1.05);
+    font-weight: normal;
   }
   

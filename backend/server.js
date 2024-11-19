@@ -44,3 +44,5 @@ sequelize.sync().then(()=>{
 }).catch((error)=>{
 	console.error('Error Al sincronizar la base de datos: ', error)
 })
+
+module.exports = app;

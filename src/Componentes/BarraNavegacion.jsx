@@ -35,7 +35,7 @@ function BarraNavegacion() {
               <div className='bar middle'></div>
               <div className='bar bottom'></div>
             </div>
-        <div className={`nav-links col-md-8 col-12 text-center justify-content-between ${isOpen ? 'show': ''}`}>
+        <div className={`nav-links col-md-10 col-xl-8 col-12 text-center justify-content-between ${isOpen ? 'show': ''}`}>
           <div className='text-center d-flex align-items-center' style={{flexDirection:'row'}}>
           
           <Link to={isLogged? '/estadisticas': '/login'} className='nav-item'>Estadisticas</Link>
@@ -58,7 +58,7 @@ function BarraNavegacion() {
           {!isLogged ? (
               <>
             <Link to="/login" className='nav-item'>Acceso </Link>
-            <Link to="/register" className='nav-item border p-2 rounded-4'>Empezar Gratis</Link>
+            <Link to="/register" className='p-2 rounded-5 empezar-gratis ms-3'>Comenzar Gratis</Link>
             </>
           ) : (
             <Link to="/perfil" className='nav-item'><i className="bi bi-person-circle"></i> Perfil</Link>

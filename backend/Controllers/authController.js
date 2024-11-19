@@ -35,7 +35,7 @@ router.post('/register',async (req,res)=>{
     phone_number
  }) 
    
-    return res.status(200).send({message: '!Usuario creado con exito¡'})
+    return res.status(201).send({message: '!Usuario creado con exito¡'})
 
 }catch(error){
     console.error('error en /register',error)
