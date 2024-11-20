@@ -57,7 +57,7 @@ function Perfil() {
       }
     }
   };
-  const handleGenerateQr= async (urlId, shortUrl)=> {
+  const handleGenerateQr = async (urlId, shortUrl)=> {
     try{
       const qrModifyResponse = await axios.put(`http://localhost:5000/generateQr/${shortUrl}`,{},{
         headers: {Authorization:`Bearer ${token}` },

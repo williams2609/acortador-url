@@ -215,7 +215,7 @@ try{
 // Ruta PUT /url/modificar/:short_url
 router.put('/modificar/:short_url', verifyToken, async (req, res) => { // Añade el middleware aquí
     const { short_url } = req.params;
-    const { new_short_url, generateQr } = req.body;
+    const { new_short_url} = req.body;
 
     if (!new_short_url || new_short_url.trim() === "") {
         return res.status(400).send({ error: 'Por favor ingrese una nueva URL corta' });

@@ -4,8 +4,10 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const authMiddleware = require('../Middleware/authMiddleware');
 const User = require('../Modelos/userModel');
+const transactionMiddleware = require('../Middleware/transactionMiddleware');
+const verifyTokenOrApiKey = require('../Middleware/verifyToken');
 
-router.post('/register',async (req,res)=>{
+router.post('/register',transactionMiddleware,async (req,res)=>{
     const { username,password,email,phone_number } = req.body
     
 
@@ -113,4 +115,24 @@ router.post('/upgrade',async(req,res)=>{
 
 })
 
+router.delete('/delete-user', authMiddleware, async(req,res)=>{
+    
+    const userId = req.user.id;
+
+    try{
+        const user = await User.findByPk(userId)
+
+        if(!user){
+            return res.status(404).send({error: 'usuario no encontrado'})
+        }
+        await user.destroy()
+
+        return res.status(200).send({message: 'usuario eliminado correctamente'})
+    }catch(err){
+        console.error('error interno en /delete-user',err)
+        res.status(500).send({error:'error interno en servidor'})
+    }
+})
+
 module.exports = router;
+
