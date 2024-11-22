@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest",
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "build": "echo 'Backend does not require a build step'"
-  },
+  "start": "npm rebuild bcrypt && node server.js",
+  "build": "echo 'Backend does not require a build step'",
+  "test": "cross-env NODE_ENV=test jest",
+  "dev": "nodemon server.js"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
