@@ -3,17 +3,18 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-  "start": "npm rebuild bcrypt && node server.js",
-  "build": "echo 'Backend does not require a build step'",
-  "test": "cross-env NODE_ENV=test jest",
-  "dev": "nodemon server.js"
-},
+    "start": "npm install bcrypt && node server.js",
+    "build": "echo 'Backend does not require a build step'",
+    "test": "cross-env NODE_ENV=test jest",
+    "dev": "nodemon server.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
