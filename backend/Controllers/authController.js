@@ -69,7 +69,7 @@ try{
         is_paid_user: user.is_paid_user
 
     },process.env.JWT_SECRET,
-    {expiresIn: '5h'})
+    {expiresIn: '24h'})
     return res.status(200).send({message: '!Inicio de Sesion Exitoso¡',token})
     }catch(error){
         console.error("error en /login",error);

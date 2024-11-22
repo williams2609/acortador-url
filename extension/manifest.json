@@ -1,22 +1,21 @@
-{
-    "manifest_version": 3,
-    "name": "URLify - Acortador de URLs",
-    "version": "1.0",
-    "description": "Acorta y gestiona tus URLs desde esta extensión.",
-    "icons": {
-      "16": "icon-16.png",
-      "48": "icon-48.png"  
-    },
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": "icon-48.png"
-    },
-    "permissions": ["storage", "activeTab", "tabs"],
-    "host_permissions": [
-      "*://localhost/*",
-      "*://your-backend-domain/*"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    }
-  }
+
+    {
+        "manifest_version": 3,
+        "name": "URLify - Acortador de URLs",
+        "version": "3.0",
+        "description": "Acorta y gestiona tus URLs desde esta extensión.",
+        "icons": {
+          "16": "icon-16.png",
+          "48": "icon-48.png"
+        },
+        "action": {
+          "default_popup": "popup.html",
+          "default_icon": "icon-48.png"
+        },
+        "permissions": ["storage", "activeTab", "tabs", "cookies"],
+       
+        "host_permissions": [
+          "*://localhost/*",
+          "*://your-backend-domain/*"
+        ]
+      }

@@ -1,0 +1,139 @@
+body {
+    margin: 0;
+    padding: 30px;
+    font-family: 'Arial', sans-serif;
+    background: #f4f4f4; /* Fondo neutro */
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    height: 400px; /* Define un alto fijo para la ventana emergente */
+    width: 300px; /* Define un ancho fijo para la ventana emergente */
+    box-sizing: border-box;
+    overflow: hidden; /* Evita el desbordamiento del contenido */
+  }
+  
+  /* Contenedor principal */
+  .popup-container {
+    padding: 20px;
+    background: #ffffff; /* Fondo blanco para el contenedor */
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra elegante */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+    max-width: 280px; /* Controla el ancho máximo */
+    text-align: center;
+  }
+  
+  /* Título */
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  /* Formulario */
+  .form-group {
+    margin-bottom: 1rem;
+    text-align: left; /* Alinea las etiquetas a la izquierda */
+  }
+  
+  .label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    width: 90%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 6px rgba(0, 123, 255, 0.2);
+  }
+  
+  /* Botones */
+  .btn {
+    display: inline-block;
+    width: 100%;
+    padding: 0.7rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px); /* Efecto de elevación */
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    margin-top: 10px;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px); /* Efecto de elevación */
+  }
+  
+  /* Mensajes de error y éxito */
+  .error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .success {
+    color: green;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  /* URL Acortada */
+  .shortened-url {
+    margin-top: 1rem;
+    text-align: center;
+  }
+  
+  .url-link {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .url-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Ajustes de responsive */
+  @media (max-width: 320px) {
+    .popup-container {
+      padding: 10px;
+    }
+  
+    .title {
+      font-size: 1.3rem;
+    }
+  
+    .btn {
+      font-size: 0.9rem;
+    }
+  }
