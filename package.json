@@ -19,7 +19,6 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0",
-    "react-scripts": "5.0.1",
     "recharts": "^2.13.0",
     "sequelize": "^6.37.5",
     "sequelize-cli": "^6.6.2",
@@ -67,6 +66,7 @@
     "babel-jest": "^29.7.0",
     "jest": "^27.5.1",
     "react-app-rewired": "^2.2.1",
+    "react-scripts": "^5.0.1",
     "supertest": "^7.0.0"
   },
   "jest": {
