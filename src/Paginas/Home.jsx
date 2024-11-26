@@ -26,7 +26,7 @@ function Home() {
        if(isLogged !== null){
         return setIsLogged(true)
        }
-    },[isLogged]
+    },[token]
 );
 
     const fetchUser = useCallback( async ()=>{
@@ -42,7 +42,7 @@ function Home() {
 				setError(err.response.data.error)
 				console.error('error Al intentar acceder a los datos del usuario',err)
 			}
-		},[token]
+		},[token, userData.is_paid_user]
     );
         useEffect(()=>{
             confirmToken();

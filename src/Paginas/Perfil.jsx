@@ -52,7 +52,7 @@ function Perfil() {
         setLoading(false);
       }
     }
-  },[token]
+  },[token, navigate]
 );
   const handleGenerateQr = async (urlId, shortUrl)=> {
     try{
