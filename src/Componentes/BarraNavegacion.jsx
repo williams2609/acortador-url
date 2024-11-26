@@ -6,18 +6,29 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import logo from './logo/large__5_-removebg-preview-removebg-preview.png'
 
 function BarraNavegacion() {
+  
   const [isOpen, setIsOpen] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
 
-  const token = localStorage.getItem('token');
+  // Función para comprobar si el usuario está logueado
+  const checkLoginStatus = () => {
+    const token = localStorage.getItem('token');
+    setIsLogged(token !== null);
+  };
 
   useEffect(() => {
-    if (token !== null) {
-      setIsLogged(true);
-    } else {
-      setIsLogged(false);
-    }
-  }, [token]);
+    // Verifica si el usuario está logueado al cargar el componente
+    checkLoginStatus();
+
+    // Añadir un listener para los cambios de localStorage
+    const handleStorageChange = () => checkLoginStatus();
+
+    // Escucha el evento de cambio en el localStorage
+    window.addEventListener('storage', handleStorageChange);
+
+    // Cleanup cuando el componente se desmonte
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
 
   const handleOpen = () => setIsOpen(!isOpen);
 
