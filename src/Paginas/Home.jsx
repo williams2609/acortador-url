@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Estilos/home.css'
 import axios from 'axios'
 import Alert from 'react-bootstrap/Alert';
@@ -18,38 +18,10 @@ function Home() {
     const [expire, setExpire] = useState("")
     const [ModifyUrl, setModifiUrl] = useState()
     const [userData, setUserData] = useState('')
-    const [ isLogged,setIsLogged ] = useState(false)
     const navigate = useNavigate()
     const token = localStorage.getItem('token')
 
-    const confirmToken = useCallback(() => {
-       if(isLogged !== null){
-        return setIsLogged(true)
-       }
-    },[isLogged]
-);
 
-    const fetchUser = useCallback( async ()=>{
-			try{
-					const userResponse = await axios.get('http://localhost:5000/users/me', {
-							headers: {
-									Authorization: `Bearer ${token}`
-							}
-					})
-	setUserData(userResponse.data)
-	setIsPaid(userData.is_paid_user)
-			}catch(err){
-				setError(err.response.data.error)
-				console.error('error Al intentar acceder a los datos del usuario',err)
-			}
-		},[token, userData.is_paid_user]
-    );
-        useEffect(()=>{
-            confirmToken();
-            if (isLogged){
-                fetchUser()
-            }
-		},[ fetchUser, confirmToken,isLogged ])
 useEffect(()=>{
     if(error === 'Token invalido'){
         const timeout = setTimeout(()=>{
