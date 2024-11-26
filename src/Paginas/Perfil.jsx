@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
@@ -22,7 +22,7 @@ function Perfil() {
   
   const token = localStorage.getItem('token')
   
-  const fetchData = async () => {
+  const fetchData = useCallback( async () => {
    
     if (token) {
       setLoading(true);
@@ -52,7 +52,8 @@ function Perfil() {
         setLoading(false);
       }
     }
-  };
+  }
+);
   const handleGenerateQr = async (urlId, shortUrl)=> {
     try{
       const qrModifyResponse = await axios.put(`http://api-urlify.uk/generateQr/${shortUrl}`,{},{

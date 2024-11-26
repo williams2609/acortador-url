@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PayPalComponent from '../Componentes/PaypalComponent';
 import axios from 'axios';
@@ -52,7 +52,7 @@ function Subscripcion() {
     },
   ];
 
-  const fetchData = async () => {
+  const fetchData = useCallback( async () => {
     if (!token) {
       return console.error('Sin token de verificación');
     }
@@ -65,7 +65,8 @@ function Subscripcion() {
     } catch (err) {
       console.error('Error al intentar acceder al usuario', err);
     }
-  };
+  },[token]
+);
 
   useEffect(() => {
     fetchData();

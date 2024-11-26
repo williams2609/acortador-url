@@ -44,7 +44,7 @@ function Home() {
 				setError(err.response.data.error)
 				console.error('error Al intentar acceder a los datos del usuario',err)
 			}
-		}
+		},[isLogged]
     );
         useEffect(()=>{
             confirmToken();
