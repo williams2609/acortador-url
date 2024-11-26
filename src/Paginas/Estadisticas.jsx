@@ -82,7 +82,7 @@ function Estadisticas() {
   useEffect(() => {
     fetchUserData();
     fetchUrls();
-  }, [fetchUserData, fetchUrls]);
+  }, [userData,urls]);
 
   useEffect(() => {
     fetchClickData();

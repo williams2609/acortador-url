@@ -66,7 +66,7 @@ const GenerateApiKey = () => {
 
   useEffect(() => {
     fetchApiKeys();
-  }, []);
+  }, [apiKeys]);
 
   return (
     <div className="container my-5" >

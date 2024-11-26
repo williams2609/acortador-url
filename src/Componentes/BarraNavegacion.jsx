@@ -38,7 +38,7 @@ function BarraNavegacion() {
           <div className='text-center d-flex align-items-center' style={{ flexDirection: 'row' }}>
             <Link to={isLogged ? '/estadisticas' : '/login'} className='nav-item'>Estadisticas</Link>
             <li className="nav-item dropdown">
-              <button className="nav-link dropdown-toggle" id="resourcesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <button className="nav-link dropdown-toggle" id="resourcesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                 Recursos
               </button>
               <ul className="dropdown-menu" aria-labelledby="resourcesDropdown">
