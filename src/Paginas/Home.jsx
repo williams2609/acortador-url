@@ -34,7 +34,7 @@ function Home() {
 
     const fetchUser = async ()=>{
 			try{
-					const userResponse = await axios.get('http://localhost:5000/users/me', {
+					const userResponse = await axios.get('http://api-urlify.uk/users/me', {
 							headers: {
 									Authorization: `Bearer ${token}`
 							}
@@ -76,7 +76,7 @@ useEffect(()=>{
         }
 
         try {
-            const userResponse = await axios.get('http://localhost:5000/users/me', {
+            const userResponse = await axios.get('http://api-urlify.uk/users/me', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -84,7 +84,7 @@ useEffect(()=>{
     setUserData(userResponse.data)
     setIsPaid(userData.is_paid_user)
 
-            const response = await axios.post("http://localhost:5000/acortar", {
+            const response = await axios.post("http://api-urlify.uk/acortar", {
                 original_url: formatedUrl,
                 short_url: ModifyUrl,
                 requestType: 'shorten'
@@ -169,7 +169,7 @@ useEffect(()=>{
                             type="text"
                             name="short_url"
                             className="input-url"
-                            placeholder="URL Personalizada (OPCIONAL)"
+                            placeholder="URL Personalizada (opcional)"
                             style={{ width: '80%' }}
                             onChange={(e) => setModifiUrl(e.target.value)}
                         />
@@ -179,8 +179,8 @@ useEffect(()=>{
                 {shortUrl && (
                     <div className='result mt-3'>
                         <label>URL Acortada</label>
-                        <a href={`http://localhost:5000/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
-                            <p className='short-url' style={{color:'blue'}}>{`http://localhost:5000/${shortUrl}`}</p>
+                        <a href={`http://api-urlify.uk/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
+                            <p className='short-url' style={{color:'blue'}}>{`http://api-urlify.uk/${shortUrl}`}</p>
                         </a>
 												{isPaid ? <p>Sin Fecha De Expiración</p> : <p>Fecha de expiración: {expire}</p>}
                         

@@ -1,4 +1,3 @@
-import { PayPalButtons } from '@paypal/react-paypal-js';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PayPalComponent from '../Componentes/PaypalComponent';

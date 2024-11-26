@@ -19,10 +19,8 @@ function Perfil() {
   const [editMode, setEditMode] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [ qrCode,setQrCode ] = useState(false);
   const [ qrData, setQrData ] = useState({});
- const [responseApiKey, setResponseApiKey] = useState('')
-  // Función para manejar la eliminación de URL
+ 
   
   const token = localStorage.getItem('token')
   
@@ -34,10 +32,10 @@ function Perfil() {
     
       try {
         const [userResponse, urlsResponse] = await Promise.all([
-          axios.get('http://localhost:5000/users/me', {
+          axios.get('http://api-urlify.uk/users/me', {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get('http://localhost:5000/user-urls', {
+          axios.get('http://api-urlify.uk/user-urls', {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -59,7 +57,7 @@ function Perfil() {
   };
   const handleGenerateQr = async (urlId, shortUrl)=> {
     try{
-      const qrModifyResponse = await axios.put(`http://localhost:5000/generateQr/${shortUrl}`,{},{
+      const qrModifyResponse = await axios.put(`http://api-urlify.uk/generateQr/${shortUrl}`,{},{
         headers: {Authorization:`Bearer ${token}` },
       });
 
@@ -69,7 +67,6 @@ function Perfil() {
         }));
       }
       console.log(qrData)
-      console.log(qrCode)
   }catch(err){
     console.error('error al intentar ingresan en /generateQr',err)
     if(err.status === 403){
@@ -78,24 +75,6 @@ function Perfil() {
   }
    }
 
-   const handleGenerateApiKey = async ()=>{
-    try{
-      const response = await axios.post('http://localhost:5000/generate-api-key',{},{
-        headers:{Authorization:`Bearer ${token}`}
-      })
-      setResponseApiKey(response.data.api_token);
-      setUserData((prevData)=>({
-        ...prevData,
-        api_token: response.data.api_token
-      }));
-    } catch (err) {
-      // Manejo de errores
-      console.error('Error al intentar generar la API Key:', err);
-      const errorMsg =
-        err.response?.data?.error || 'Error al generar la API Key. Intenta nuevamente.';
-      setError(errorMsg);
-    }
-   }
   // Función para recuperar datos de usuario y URLs
   useEffect(() => {
     fetchData();
@@ -105,11 +84,12 @@ function Perfil() {
   const handleDelete = async (shortUrl) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.delete(`http://localhost:5000/eliminar/${shortUrl}`, {
+      const response = await axios.delete(`http://api-urlify.uk/eliminar/${shortUrl}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUrls((prevUrls) => prevUrls.filter((url) => url.short_url !== shortUrl));
-  
+      console.log(response)
+   
     } catch (err) {
       console.error('Error al intentar acceder a la ruta delete:', err.response ? err.response.data : err);
       if(err.status === 403){
@@ -171,7 +151,7 @@ function Perfil() {
     if (token) {
       try {
          await axios.put(
-          `http://localhost:5000/modificar/${url}`,
+          `http://api-urlify.uk:5000/modificar/${url}`,
           { new_short_url: newShortUrl},
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -290,7 +270,7 @@ function Perfil() {
                 <div>
       {/* Muestra la URL base como texto sin editar */}
      
-      <span className="base-url">http://localhost:5000/</span>
+      <span className="base-url">http://api-urlify.uk:5000/</span>
       {/* Solo permite editar la parte final (short_url) */}
       <span
         className={`short-url-editable base-url${editMode === url.id ? 'highlight' : ''}`}
@@ -305,7 +285,7 @@ function Perfil() {
                     <button
                       onClick={() => {
                         const newShortUrl = urlRefs.current[url.id]?.innerText.trim();
-                        const shortUrlCode = newShortUrl.replace('http://localhost:5000/', '');
+                        const shortUrlCode = newShortUrl.replace('http://api-urlify.uk:5000/', '');
                         if (shortUrlCode && shortUrlCode !== url.short_url) {
                           handleEditSave(url.id, shortUrlCode, url.short_url);
                         }
@@ -357,7 +337,7 @@ function Perfil() {
            <div className="api-key-wrapper col-12 col-md-6 ">
               <strong className="mb-5">apiKey</strong>
               <pre className="api-key-block">
-                <code>{responseApiKey || userData.api_token}</code>
+                <code>{ userData.api_token }</code>
               </pre>
             </div>
          </div>
