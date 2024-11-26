@@ -46,7 +46,7 @@ function Register() {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/users/register', {
+            const response = await axios.post('https://api-urlify.onrender.com/users/register', {
                 username: inputValue.name,
                 password: inputValue.password,
                 email: inputValue.email,

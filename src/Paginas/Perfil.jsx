@@ -30,10 +30,10 @@ function Perfil() {
     
       try {
         const [userResponse, urlsResponse] = await Promise.all([
-          axios.get('http://api-urlify.uk/users/me', {
+          axios.get('https://api-urlify.onrender.com/users/me', {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get('http://api-urlify.uk/user-urls', {
+          axios.get('https://api-urlify.onrender.com/user-urls', {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -56,7 +56,7 @@ function Perfil() {
 );
   const handleGenerateQr = async (urlId, shortUrl)=> {
     try{
-      const qrModifyResponse = await axios.put(`http://api-urlify.uk/generateQr/${shortUrl}`,{},{
+      const qrModifyResponse = await axios.put(`https://api-urlify.onrender.com/generateQr/${shortUrl}`,{},{
         headers: {Authorization:`Bearer ${token}` },
       });
 
@@ -83,7 +83,7 @@ function Perfil() {
   const handleDelete = async (shortUrl) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.delete(`http://api-urlify.uk/eliminar/${shortUrl}`, {
+      const response = await axios.delete(`https://api-urlify.onrender.com/eliminar/${shortUrl}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUrls((prevUrls) => prevUrls.filter((url) => url.short_url !== shortUrl));
@@ -150,7 +150,7 @@ function Perfil() {
     if (token) {
       try {
          await axios.put(
-          `http://api-urlify.uk:5000/modificar/${url}`,
+          `https://api-urlify.onrender.com:5000/modificar/${url}`,
           { new_short_url: newShortUrl},
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -269,7 +269,7 @@ function Perfil() {
                 <div>
       {/* Muestra la URL base como texto sin editar */}
      
-      <span className="base-url">http://api-urlify.uk:5000/</span>
+      <span className="base-url">https://api-urlify.onrender.com:5000/</span>
       {/* Solo permite editar la parte final (short_url) */}
       <span
         className={`short-url-editable base-url${editMode === url.id ? 'highlight' : ''}`}
@@ -284,7 +284,7 @@ function Perfil() {
                     <button
                       onClick={() => {
                         const newShortUrl = urlRefs.current[url.id]?.innerText.trim();
-                        const shortUrlCode = newShortUrl.replace('http://api-urlify.uk:5000/', '');
+                        const shortUrlCode = newShortUrl.replace('https://api-urlify.onrender.com:5000/', '');
                         if (shortUrlCode && shortUrlCode !== url.short_url) {
                           handleEditSave(url.id, shortUrlCode, url.short_url);
                         }
