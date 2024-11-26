@@ -40,6 +40,7 @@ function Home() {
 					})
 	setUserData(userResponse.data)
 	setIsPaid(userData.is_paid_user)
+    console.log(isPaid)
 			}catch(err){
 				setError(err.response.data.error)
 				console.error('error Al intentar acceder a los datos del usuario',err)
