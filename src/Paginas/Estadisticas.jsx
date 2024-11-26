@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import ClickChart from '../Componentes/ClickChart';
 import './Estilos/estadisticas.css';
@@ -17,44 +17,43 @@ function Estadisticas() {
 
   const navigate = useNavigate();
 
-  const fetchUserData = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      const userResponse = await axios.get('http://localhost:5000/users/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUserData(userResponse.data);
-    } catch (err) {
-      if (err.response && err.response.status === 403) {
-        const errorMessage = err.response.data.error;
-        alert(errorMessage);
-        navigate('/Subscripción');
-      }
-      console.error('Error al intentar acceder a los datos del usuario:', err);
+  const fetchUserData = useCallback(async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const userResponse = await axios.get('http://localhost:5000/users/me', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setUserData(userResponse.data);
+  } catch (err) {
+    if (err.response && err.response.status === 403) {
+      const errorMessage = err.response.data.error;
+      alert(errorMessage);
+      navigate('/Subscripción');
     }
-  };
+    console.error('Error al intentar acceder a los datos del usuario:', err);
+  }
+}, [navigate]);
 
-  const fetchUrls = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      const urlResponse = await axios.get('http://localhost:5000/user-urls', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUrls(Array.isArray(urlResponse.data) ? urlResponse.data : []);
-      if (urlResponse.data.length > 0 && !selectedUrlId) {
-        setSelectedUrlId(urlResponse.data[0].id);
-        setSelectedUrl(urlResponse.data[0])
-      }
-      
-      
-    } catch (err) {
-      console.error('Error al intentar obtener las URLs del usuario:', err);
+const fetchUrls = useCallback(async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const urlResponse = await axios.get('http://localhost:5000/user-urls', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    setUrls(Array.isArray(urlResponse.data) ? urlResponse.data : []);
+    if (urlResponse.data.length > 0 && !selectedUrlId) {
+      setSelectedUrlId(urlResponse.data[0].id);
+      setSelectedUrl(urlResponse.data[0]);
     }
-  };
-  const fetchClickData = async () => {
+  } catch (err) {
+    console.error('Error al intentar obtener las URLs del usuario:', err);
+  }
+}, [selectedUrlId]);
+
+  const fetchClickData = useCallback(async () => {
     const token = localStorage.getItem('token');
     if (!selectedUrlId) return; // No hacer nada si no hay URL seleccionada
-
+  
     try {
       let response;
       if (viewOption === 'total') {
@@ -77,7 +76,7 @@ function Estadisticas() {
     } catch (err) {
       console.error('Error al intentar obtener los datos de clics:', err);
     }
-  };
+  }, [selectedUrlId, viewOption]);
 
   useEffect(() => {
     fetchUserData();

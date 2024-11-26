@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+
 
 const GenerateApiKey = () => {
   const [apiKeys, setApiKeys] = useState(null);
@@ -8,7 +9,8 @@ const GenerateApiKey = () => {
 
   const token = localStorage.getItem('token');
 
-  const fetchApiKeys = async () => {
+  // Usamos useCallback para estabilizar la función
+  const fetchApiKeys = useCallback(async () => {
     setLoading(true);
     setError(null);
 
@@ -24,7 +26,7 @@ const GenerateApiKey = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]); // Dependencia de token, ya que la función depende de este valor
 
   const generateApiKey = async () => {
     setLoading(true);
@@ -65,8 +67,8 @@ const GenerateApiKey = () => {
   };
 
   useEffect(() => {
-    fetchApiKeys();
-  }, [fetchApiKeys]);
+    fetchApiKeys(); // Llamamos a fetchApiKeys dentro de useEffect
+  }, [fetchApiKeys]);  // Agregar fetchApiKeys como dependencia
 
   return (
     <div className="container my-5" >
