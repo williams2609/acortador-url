@@ -26,7 +26,7 @@ function Home() {
        if(isLogged !== null){
         return setIsLogged(true)
        }
-    },[token]
+    },[token,isLogged]
 );
 
     const fetchUser = useCallback( async ()=>{
