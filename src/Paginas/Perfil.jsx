@@ -105,7 +105,7 @@ function Perfil() {
   }, [urls]);
 
   const handleLogout = () => {
-   
+   localStorage.removeItem('token')
     navigate('/login');
   };
 
@@ -150,7 +150,7 @@ function Perfil() {
     if (token) {
       try {
          await axios.put(
-          `https://api-urlify.onrender.com:5000/modificar/${url}`,
+          `https://api-urlify.onrender.com/modificar/${url}`,
           { new_short_url: newShortUrl},
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -269,7 +269,7 @@ function Perfil() {
                 <div>
       {/* Muestra la URL base como texto sin editar */}
      
-      <span className="base-url">https://api-urlify.onrender.com:5000/</span>
+      <span className="base-url">https://api-urlify.onrender.com/</span>
       {/* Solo permite editar la parte final (short_url) */}
       <span
         className={`short-url-editable base-url${editMode === url.id ? 'highlight' : ''}`}
@@ -284,7 +284,7 @@ function Perfil() {
                     <button
                       onClick={() => {
                         const newShortUrl = urlRefs.current[url.id]?.innerText.trim();
-                        const shortUrlCode = newShortUrl.replace('https://api-urlify.onrender.com:5000/', '');
+                        const shortUrlCode = newShortUrl.replace('https://api-urlify.onrender.com/', '');
                         if (shortUrlCode && shortUrlCode !== url.short_url) {
                           handleEditSave(url.id, shortUrlCode, url.short_url);
                         }
