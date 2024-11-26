@@ -76,7 +76,7 @@ function Perfil() {
   // Función para recuperar datos de usuario y URLs
   useEffect(() => {
     fetchData();
-  }, [navigate,qrData]);
+  }, [fetchData]);
   console.log(userData)
   
   const handleDelete = async (shortUrl) => {
@@ -232,9 +232,9 @@ function Perfil() {
         <p>Miembro desde: {userData?.createdAt.split('T')[0]}</p>
         <p>Tipo de Subscripción: {userData?.subscriptionType} </p>
         <p>Total de URLs Acortadas: {urlStats.totalUrls}</p>
-        <a onClick={handleLogout} className="cerrar-sesion" aria-label="Cerrar sesión">
+        <button onClick={handleLogout} className="cerrar-sesion" aria-label="Cerrar sesión">
           Cerrar Sesión <i className="ms-2 bi bi-box-arrow-right"></i>
-        </a>
+        </button>
       </div>
 
       <div className="perfil-main">

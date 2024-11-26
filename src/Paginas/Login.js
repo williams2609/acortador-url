@@ -23,9 +23,6 @@ function Login() {
         });
     };
 
-		const handleNavigate = () => navigate('/register')
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         let validationErrors = {};
@@ -103,7 +100,7 @@ function Login() {
 						<div className='separador mt-3 ms-3'></div>
 						</div>
 						<div>
-							<a className='boton-register border p-2 rounded-3' onClick={handleNavigate}><strong>Registrate</strong></a>
+							<a className='boton-register border p-2 rounded-3' href='/register'><strong>Registrate</strong></a>
 						</div>
         </div>
     );

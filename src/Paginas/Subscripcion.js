@@ -69,7 +69,7 @@ function Subscripcion() {
 
   useEffect(() => {
     fetchData();
-  }, [userId]);
+  }, [fetchData]);
 
   const handleUpgrade = async (membership) => {
     try {

@@ -51,7 +51,7 @@ function Home() {
             if (isLogged){
                 fetchUser()
             }
-		},[])
+		},[confirmToken, fetchUser, isLogged])
 useEffect(()=>{
     if(error === 'Token invalido'){
         const timeout = setTimeout(()=>{
