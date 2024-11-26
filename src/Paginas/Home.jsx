@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import './Estilos/home.css'
 import axios from 'axios'
 import Alert from 'react-bootstrap/Alert';
@@ -23,15 +23,14 @@ function Home() {
     const token = localStorage.getItem('token')
     console.log(token)
 
-    const confirmToken = () => {
+    const confirmToken = useCallback(() => {
        if(isLogged !== null){
         return setIsLogged(true)
        }
-    }
-		
+    },[isLogged]
+);
 
-
-    const fetchUser = async ()=>{
+    const fetchUser = useCallback( async ()=>{
 			try{
 					const userResponse = await axios.get('http://api-urlify.uk/users/me', {
 							headers: {
@@ -46,13 +45,13 @@ function Home() {
 				console.error('error Al intentar acceder a los datos del usuario',err)
 			}
 		}
-		
+    );
         useEffect(()=>{
             confirmToken();
             if (isLogged){
                 fetchUser()
             }
-		},[confirmToken, fetchUser, isLogged])
+		},[ fetchUser, confirmToken ])
 useEffect(()=>{
     if(error === 'Token invalido'){
         const timeout = setTimeout(()=>{

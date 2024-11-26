@@ -85,7 +85,7 @@ const fetchUrls = useCallback(async () => {
 
   useEffect(() => {
     fetchClickData();
-  }, [viewOption, selectedUrlId]);
+  }, [viewOption, selectedUrlId,fetchClickData]);
   useEffect(() => {
     const url = urls.find((url) => url.id === selectedUrlId);
     setSelectedUrl(url || {});
