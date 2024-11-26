@@ -21,7 +21,6 @@ function Home() {
     const [ isLogged,setIsLogged ] = useState(false)
     const navigate = useNavigate()
     const token = localStorage.getItem('token')
-    console.log(token)
 
     const confirmToken = useCallback(() => {
        if(isLogged !== null){
@@ -39,12 +38,11 @@ function Home() {
 					})
 	setUserData(userResponse.data)
 	setIsPaid(userData.is_paid_user)
-    console.log(isPaid)
 			}catch(err){
 				setError(err.response.data.error)
 				console.error('error Al intentar acceder a los datos del usuario',err)
 			}
-		},[isLogged]
+		},[token]
     );
         useEffect(()=>{
             confirmToken();
