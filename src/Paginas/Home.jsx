@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import './Estilos/home.css'
 import axios from 'axios'
-import logo from './imagenes/graf-removebg-preview.png'
 import Alert from 'react-bootstrap/Alert';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import grafico from './imagenes/grafico.png'
 import ejemp1 from './imagenes/Captura de pantalla 2024-11-12 104129.png'
 import ejemp2 from './imagenes/Captura de pantalla 2024-11-12 104141.png'

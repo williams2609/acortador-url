@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import UrlChart from '../Componentes/UrlChart';
 import ClickChart from '../Componentes/ClickChart';
 import './Estilos/estadisticas.css';
 import { Card, Form, Row, Col } from 'react-bootstrap';
@@ -83,7 +82,7 @@ function Estadisticas() {
   useEffect(() => {
     fetchUserData();
     fetchUrls();
-  }, []);
+  }, [fetchUserData, fetchUrls]);
 
   useEffect(() => {
     fetchClickData();

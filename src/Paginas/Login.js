@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './Estilos/login.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../Componentes/AuthProvider';
 
 
 function Login() {
@@ -14,7 +13,7 @@ function Login() {
 		const [success,setSuccess]= useState("")
 		const navigate = useNavigate()
 
-    const {login} = useAuth()
+
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -56,7 +55,7 @@ function Login() {
 						console.log(response.data)
 						setSuccess(response.data.message)
                         const {token} = response.data
-                        login(token)
+                    
                         localStorage.setItem('token',token);
                         console.log(token)
                         navigate('/perfil')

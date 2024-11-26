@@ -3,7 +3,6 @@ import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import './Estilos/userPerfil.css';
-import { useAuth } from '../Componentes/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
 Chart.register(...registerables);
@@ -15,7 +14,6 @@ function Perfil() {
   const [error, setError] = useState(null);
   const [urlStats, setUrlStats] = useState({});
   const [editVisible, setEditVisible] = useState(null);
-  const { logout } = useAuth();
   const [editMode, setEditMode] = useState(null);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -106,7 +104,7 @@ function Perfil() {
   }, [urls]);
 
   const handleLogout = () => {
-    logout();
+   
     navigate('/login');
   };
 
