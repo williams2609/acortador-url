@@ -28,8 +28,8 @@ app.use((err, req, res, next) => {
 
 if (process.env.NODE_ENV !== 'test') {
     sequelize.sync().then(() => {
-        app.listen(port, () => {
-            console.log(`Servidor escuchando en http://localhost:${port}`);
+        app.listen(port, '0.0.0.0',() => {
+            console.log(`Servidor escuchando en el puerto ${port}`);
         });
     }).catch(err => {
         console.error('Error al conectar la base de datos:', err.message);
