@@ -35,10 +35,10 @@ function Perfil() {
     
       try {
         const [userResponse, urlsResponse] = await Promise.all([
-          axios.get('https://api-urlify.onrender.com/users/me', {
+          axios.get('https://xtrs4.onrender.com/users/me', {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get('https://api-urlify.onrender.com/user-urls', {
+          axios.get('https://xtrs4.onrender.com/user-urls', {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -61,7 +61,7 @@ function Perfil() {
 );
   const handleGenerateQr = async (urlId, shortUrl)=> {
     try{
-      const qrModifyResponse = await axios.put(`https://api-urlify.onrender.com/generateQr/${shortUrl}`,{},{
+      const qrModifyResponse = await axios.put(`https://xtrs4.onrender.com/generateQr/${shortUrl}`,{},{
         headers: {Authorization:`Bearer ${token}` },
       });
 
@@ -88,7 +88,7 @@ function Perfil() {
   const handleDelete = async (shortUrl) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await axios.delete(`https://api-urlify.onrender.com/eliminar/${shortUrl}`, {
+      const response = await axios.delete(`https://xtrs4.onrender.com/eliminar/${shortUrl}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUrls((prevUrls) => prevUrls.filter((url) => url.short_url !== shortUrl));
@@ -152,7 +152,7 @@ function Perfil() {
     if (token) {
       try {
          await axios.put(
-          `https://api-urlify.onrender.com/modificar/${url}`,
+          `https://xtrs4.onrender.com/modificar/${url}`,
           { new_short_url: newShortUrl},
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -235,7 +235,7 @@ function Perfil() {
         <p>Miembro desde: {userData?.createdAt.split('T')[0]}</p>
         <p>Tipo de Subscripción: {userData?.subscriptionType} </p>
         <p>Total de URLs Acortadas: {urlStats.totalUrls}</p>
-        <button onClick={()=>logout()} className="cerrar-sesion" aria-label="Cerrar sesión">
+        <button onClick={()=>logout()} className="cerrar-sesion btn btn-warning p-2" aria-label="Cerrar sesión" >
           Cerrar Sesión <i className="ms-2 bi bi-box-arrow-right"></i>
         </button>
       </div>
@@ -271,7 +271,7 @@ function Perfil() {
                 <div>
       {/* Muestra la URL base como texto sin editar */}
      
-      <span className="base-url">https://api-urlify.onrender.com/</span>
+      <span className="base-url">https://xtrs4.onrender.com/</span>
       {/* Solo permite editar la parte final (short_url) */}
       <span
         className={`short-url-editable base-url${editMode === url.id ? 'highlight' : ''}`}
@@ -286,7 +286,7 @@ function Perfil() {
                     <button
                       onClick={() => {
                         const newShortUrl = urlRefs.current[url.id]?.innerText.trim();
-                        const shortUrlCode = newShortUrl.replace('https://api-urlify.onrender.com/', '');
+                        const shortUrlCode = newShortUrl.replace('https://xtrs4.onrender.com/', '');
                         if (shortUrlCode && shortUrlCode !== url.short_url) {
                           handleEditSave(url.id, shortUrlCode, url.short_url);
                         }

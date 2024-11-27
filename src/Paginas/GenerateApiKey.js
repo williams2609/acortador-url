@@ -15,7 +15,7 @@ const GenerateApiKey = () => {
     setError(null);
 
     try {
-      const response = await axios.get('http://localhost:5000/users/me', {
+      const response = await axios.get('https://xtrs4.onrender.com/users/me', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -33,7 +33,7 @@ const GenerateApiKey = () => {
     setError(null);
     try {
       const response = await axios.post(
-        'http://localhost:5000/generate-api-key',
+        'https://xtrs4.onrender.com/generate-api-key',
         {},
         {
           headers: {
@@ -53,7 +53,7 @@ const GenerateApiKey = () => {
     setLoading(true);
     setError(null);
     try {
-      await axios.delete(`http://localhost:5000/api-keys/`, {
+      await axios.delete(`https://xtrs4.onrender.com/api-keys/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -57,7 +57,7 @@ function Subscripcion() {
       return console.error('Sin token de verificación');
     }
     try {
-      const response = await axios.get('https://api-urlify.onrender.com/users/me', {
+      const response = await axios.get('https://xtrs4.onrender.com/users/me', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserId(response.data.id);
@@ -76,7 +76,7 @@ function Subscripcion() {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'https://api-urlify.onrender.com/users/upgrade',
+        'https://xtrs4.onrender.com/users/upgrade',
         { userId, membership },
         { headers: { Authorization: `Bearer ${token}` } }
       );

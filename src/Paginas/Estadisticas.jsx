@@ -20,7 +20,7 @@ function Estadisticas() {
   const fetchUserData = useCallback(async () => {
   const token = localStorage.getItem('token');
   try {
-    const userResponse = await axios.get('http://localhost:5000/users/me', {
+    const userResponse = await axios.get('https://xtrs4.onrender.com/users/me', {
       headers: { Authorization: `Bearer ${token}` },
     });
     setUserData(userResponse.data);
@@ -37,7 +37,7 @@ function Estadisticas() {
 const fetchUrls = useCallback(async () => {
   const token = localStorage.getItem('token');
   try {
-    const urlResponse = await axios.get('http://localhost:5000/user-urls', {
+    const urlResponse = await axios.get('https://xtrs4.onrender.com/user-urls', {
       headers: { Authorization: `Bearer ${token}` },
     });
     setUrls(Array.isArray(urlResponse.data) ? urlResponse.data : []);
@@ -57,17 +57,17 @@ const fetchUrls = useCallback(async () => {
     try {
       let response;
       if (viewOption === 'total') {
-        response = await axios.get('http://localhost:5000/clicks/total', {
+        response = await axios.get('https://xtrs4.onrender.com/clicks/total', {
           headers: { Authorization: `Bearer ${token}` },
           params: { url_id: selectedUrlId },
         });
       } else if (viewOption === 'day') {
-        response = await axios.get('http://localhost:5000/clicks/daily', {
+        response = await axios.get('https://xtrs4.onrender.com/clicks/daily', {
           headers: { Authorization: `Bearer ${token}` },
           params: { url_id: selectedUrlId },
         });
       } else if (viewOption === 'hour') {
-        response = await axios.get('http://localhost:5000/clicks/hourly', {
+        response = await axios.get('https://xtrs4.onrender.com/clicks/hourly', {
           headers: { Authorization: `Bearer ${token}` },
           params: { url_id: selectedUrlId },
         });

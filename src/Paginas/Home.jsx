@@ -45,7 +45,7 @@ useEffect(()=>{
         }
 
         try {
-            const userResponse = await axios.get('https://api-urlify.onrender.com/users/me', {
+            const userResponse = await axios.get('https://xtrs4.onrender.com/users/me', {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -53,7 +53,7 @@ useEffect(()=>{
     setUserData(userResponse.data)
     setIsPaid(userData.is_paid_user)
 
-            const response = await axios.post("https://api-urlify.onrender.com/acortar", {
+            const response = await axios.post("https://xtrs4.onrender.com/acortar", {
                 original_url: formatedUrl,
                 short_url: ModifyUrl,
                 requestType: 'shorten'
@@ -148,8 +148,8 @@ useEffect(()=>{
                 {shortUrl && (
                     <div className='result mt-3'>
                         <label>URL Acortada</label>
-                        <a href={`https://api-urlify.onrender.com/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
-                            <p className='short-url' style={{color:'blue'}}>{`https://api-urlify.onrender.com/${shortUrl}`}</p>
+                        <a href={`https://xtrs4.onrender.com/${shortUrl}`} target='_blank' rel='noopener noreferrer'>
+                            <p className='short-url' style={{color:'blue'}}>{`https://xtrs4.onrender.com/${shortUrl}`}</p>
                         </a>
 												{isPaid ? <p>Sin Fecha De Expiración</p> : <p>Fecha de expiración: {expire}</p>}
                         

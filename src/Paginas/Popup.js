@@ -20,7 +20,7 @@ const Popup = () => {
     setError('');
 
     try {
-      const response = await axios.post('https://api-urlify.onrender.com/users/login', {
+      const response = await axios.post('https://xtrs4.onrender.com/users/login', {
         username: name,
         password: password,
       });
@@ -48,7 +48,7 @@ const Popup = () => {
 
     try {
       const response = await axios.post(
-        'https://api-urlify.onrender.com/acortar',
+        'https://xtrs4.onrender.com/acortar',
         {
           original_url: originalUrl,
           short_url: customUrl || undefined,
@@ -104,12 +104,12 @@ const Popup = () => {
           <p className="shortened-url">
             URL Acortada:{' '}
             <a
-              href={`https://api-urlify.onrender.com/${shortenedUrl}`}
+              href={`https://xtrs4.onrender.com/${shortenedUrl}`}
               target="_blank"
               rel="noopener noreferrer"
               className="url-link"
             >
-              {`https://api-urlify.onrender.com/${shortenedUrl}`}
+              {`https://xtrs4.onrender.com/${shortenedUrl}`}
             </a>
           </p>
         )}

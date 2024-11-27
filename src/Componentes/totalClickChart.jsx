@@ -10,7 +10,7 @@ function TotalClicksChart() {
       const token = localStorage.getItem('token');
       try {
         // Llama a la API para obtener todas las URLs con su total de clics
-        const response = await axios.get('http://localhost:5000/urls-clicks', {
+        const response = await axios.get('https://xtrs4.onrender.com/urls-clicks', {
           headers: { Authorization: `Bearer ${token}` }
         });
         const sortedData = response.data.sort((a, b) => b.total_clicks - a.total_clicks);
