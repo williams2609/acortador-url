@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import Popup from './Paginas/popup';
+import Popup from './Componentes/Popup';
 
-ReactDOM.render(
-  <React.StrictMode>
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
     <Popup />
-  </React.StrictMode>,
-  document.getElementById('root')
 );

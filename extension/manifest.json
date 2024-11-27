@@ -15,7 +15,7 @@
         "permissions": ["storage", "activeTab", "tabs", "cookies"],
        
         "host_permissions": [
-          "*://localhost/*",
-          "*://your-backend-domain/*"
+          "*://api-urlify.uk/*",
+          "*://xtrs4.onrender.com/*"
         ]
       }
