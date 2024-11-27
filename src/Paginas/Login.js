@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './Estilos/login.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Componentes/AuthContext';
 
 
 function Login() {
@@ -9,6 +10,8 @@ function Login() {
         name: '',
         password: ''
     });
+const {login}= useContext(AuthContext)
+
     const [errors, setErrors] = useState({});
 		const [success,setSuccess]= useState("")
 		const navigate = useNavigate()
@@ -41,7 +44,7 @@ function Login() {
         if (Object.keys(validationErrors).length > 0) {
             return setErrors(validationErrors);
         }
-
+       
         // Resetear errores si el formulario es válido
         setErrors({});
 				try{
@@ -51,9 +54,11 @@ function Login() {
 						})
 						console.log(response.data)
 						setSuccess(response.data.message)
-                        const {token} = response.data
+                        const { token } = response.data
                     
                         localStorage.setItem('token',token);
+                        login(token)
+
                         console.log(token)
                         navigate('/perfil')
 				}catch(err){

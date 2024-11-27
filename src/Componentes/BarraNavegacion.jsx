@@ -1,34 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext,useState } from 'react';
 import './Estilos/Navbar.css';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import logo from './logo/large__5_-removebg-preview-removebg-preview.png'
+import { AuthContext } from './AuthContext';
 
 function BarraNavegacion() {
-  
-  const [isOpen, setIsOpen] = useState(false);
-  const [isLogged, setIsLogged] = useState(false);
 
-  // Función para comprobar si el usuario está logueado
-  const checkLoginStatus = () => {
-    const token = localStorage.getItem('token');
-    setIsLogged(token !== null);
-  };
 
-  useEffect(() => {
-    // Verifica si el usuario está logueado al cargar el componente
-    checkLoginStatus();
+ const [isOpen,setIsOpen]= useState(false)
 
-    // Añadir un listener para los cambios de localStorage
-    const handleStorageChange = () => checkLoginStatus();
+  const { isLogged } = useContext(AuthContext)
 
-    // Escucha el evento de cambio en el localStorage
-    window.addEventListener('storage', handleStorageChange);
-
-    // Cleanup cuando el componente se desmonte
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+  console.log('esta logeado?',isLogged)
 
   const handleOpen = () => setIsOpen(!isOpen);
 
@@ -64,7 +49,7 @@ function BarraNavegacion() {
             <Link to="/Subscripción" className='nav-item'>Planes</Link>
           </div>
           <div className='text-center align-items-center justify-content-center nav item'>
-            {!isLogged ? (
+            { !isLogged ? (
               <>
                 <Link to="/login" className='nav-item'>Acceso </Link>
                 <Link to="/register" className='p-2 rounded-5 empezar-gratis ms-3'>Comenzar Gratis</Link>

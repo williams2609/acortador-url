@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useMemo, useRef, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useRef, useCallback, useContext} from 'react';
 import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Chart, registerables } from 'chart.js';
 import './Estilos/userPerfil.css';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Componentes/AuthContext';
 
 Chart.register(...registerables);
+
 
 function Perfil() {
   const urlRefs = useRef({});
@@ -19,9 +21,12 @@ function Perfil() {
   const [loading, setLoading] = useState(true);
   const [ qrData, setQrData ] = useState({});
  
+  const { logout } = useContext(AuthContext)
+
   
   const token = localStorage.getItem('token')
   
+ 
   const fetchData = useCallback( async () => {
    
     if (token) {
@@ -104,10 +109,7 @@ function Perfil() {
     setUrlStats({ totalUrls: urls.length });
   }, [urls]);
 
-  const handleLogout = () => {
-   localStorage.removeItem('token')
-    navigate('/login');
-  };
+  
 
   const prepareChartData = (urls, createdAt) => {
     const dateCounts = {};
@@ -233,7 +235,7 @@ function Perfil() {
         <p>Miembro desde: {userData?.createdAt.split('T')[0]}</p>
         <p>Tipo de Subscripción: {userData?.subscriptionType} </p>
         <p>Total de URLs Acortadas: {urlStats.totalUrls}</p>
-        <button onClick={handleLogout} className="cerrar-sesion" aria-label="Cerrar sesión">
+        <button onClick={()=>logout()} className="cerrar-sesion" aria-label="Cerrar sesión">
           Cerrar Sesión <i className="ms-2 bi bi-box-arrow-right"></i>
         </button>
       </div>
